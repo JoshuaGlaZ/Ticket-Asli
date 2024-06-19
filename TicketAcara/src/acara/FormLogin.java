@@ -4,6 +4,8 @@
  */
 package acara;
 
+import java.awt.Color;
+
 /**
  *
  * @author LENOVO
@@ -15,6 +17,7 @@ public class FormLogin extends javax.swing.JFrame {
      */
     public FormLogin() {
         initComponents();
+        this.setLocationRelativeTo(null);
     }
 
     /**
@@ -32,16 +35,15 @@ public class FormLogin extends javax.swing.JFrame {
         textfield_LoginPassword = new javax.swing.JPasswordField();
         button_Login = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
-        button_ToRegisterForm = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
+        linkRegister = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(450, 360));
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        jLabel3.setText("Password");
+        jLabel3.setText("Password :");
 
         textfield_LoginUsername.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
 
@@ -56,58 +58,65 @@ public class FormLogin extends javax.swing.JFrame {
         });
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel4.setText("Don't have account yet? Create now");
-
-        button_ToRegisterForm.setText("REGISTER");
-        button_ToRegisterForm.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                button_ToRegisterFormActionPerformed(evt);
-            }
-        });
+        jLabel4.setText("Don't have account yet?");
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jLabel1.setText("Please Login First");
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        jLabel2.setText("Username");
+        jLabel2.setText("Username :");
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jLabel5.setText("Welcome to the X Event 2024");
+
+        linkRegister.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        linkRegister.setText("Create now");
+        linkRegister.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                linkRegisterMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                linkRegisterMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                linkRegisterMouseExited(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(53, 53, 53)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                            .addComponent(jLabel1)
-                            .addGap(75, 75, 75))
-                        .addGroup(layout.createSequentialGroup()
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jLabel2)
-                                .addComponent(jLabel3))
-                            .addGap(18, 18, 18)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(textfield_LoginUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(textfield_LoginPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                            .addGap(125, 125, 125)
-                            .addComponent(button_Login, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(9, 9, 9)
-                        .addComponent(jLabel4)
+                        .addGap(79, 79, 79)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addGap(75, 75, 75))
+                            .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(82, 82, 82)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3))
                         .addGap(18, 18, 18)
-                        .addComponent(button_ToRegisterForm)))
-                .addContainerGap(49, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(textfield_LoginUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(textfield_LoginPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(button_Login, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(136, 136, 136)
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(linkRegister)))
+                .addGap(81, 81, 81))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(40, 40, 40)
+                .addGap(50, 50, 50)
                 .addComponent(jLabel5)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel1)
@@ -121,24 +130,41 @@ public class FormLogin extends javax.swing.JFrame {
                     .addComponent(textfield_LoginPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(button_Login)
-                .addGap(29, 29, 29)
+                .addGap(31, 31, 31)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(button_ToRegisterForm))
-                .addContainerGap(64, Short.MAX_VALUE))
+                    .addComponent(linkRegister))
+                .addGap(50, 50, 50))
         );
+
+        jLabel4.getAccessibleContext().setAccessibleName("Don't have account yet?");
+        linkRegister.getAccessibleContext().setAccessibleName("Create now");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void linkRegisterMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_linkRegisterMouseClicked
+        this.setVisible(false);
+        new FormRegister().setVisible(true);
+    }//GEN-LAST:event_linkRegisterMouseClicked
+
+    private void linkRegisterMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_linkRegisterMouseEntered
+        linkRegister.setForeground(Color.BLUE);
+        linkRegister.setText("<html><u>Create now</u></html>");
+    }//GEN-LAST:event_linkRegisterMouseEntered
+
+    private void linkRegisterMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_linkRegisterMouseExited
+        linkRegister.setForeground(new Color(60, 63, 65));
+        linkRegister.setText("Create now");
+    }//GEN-LAST:event_linkRegisterMouseExited
 
     private void button_LoginActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_button_LoginActionPerformed
         // Checking to user Database
     }
 
     private void button_ToRegisterFormActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_button_ToRegisterFormActionPerformed
-        this.setVisible(false);
-        new FormRegister().setVisible(true);
-    }// GEN-LAST:event_button_ToRegisterFormActionPerformed
+        
+    }
 
     /**
      * @param args the command line arguments
@@ -154,12 +180,12 @@ public class FormLogin extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton button_Login;
-    private javax.swing.JButton button_ToRegisterForm;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel linkRegister;
     private javax.swing.JPasswordField textfield_LoginPassword;
     private javax.swing.JTextField textfield_LoginUsername;
     // End of variables declaration//GEN-END:variables
