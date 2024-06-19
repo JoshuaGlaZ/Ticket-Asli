@@ -4,13 +4,20 @@
  */
 package acara;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author LENOVO
  */
 public class FormRegister extends javax.swing.JFrame {
-    
-    
+
+    String fullName = "";
+    String email = "";
+    String username = "";
+    String password = "";
+    String confirmPass = "";
+
     /**
      * Creates new form FormRegister
      */
@@ -55,11 +62,21 @@ public class FormRegister extends javax.swing.JFrame {
 
         button_Register.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         button_Register.setText("REGISTER");
+        button_Register.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button_RegisterActionPerformed(evt);
+            }
+        });
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel4.setText("Already have an account? Login here");
 
         button_ToLoginForm.setText("LOGIN");
+        button_ToLoginForm.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button_ToLoginFormActionPerformed(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jLabel1.setText("please register first.");
@@ -160,14 +177,33 @@ public class FormRegister extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void button_RegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_RegisterActionPerformed
+        password = new String(textfield_RegisterPassword.getPassword());
+        confirmPass = new String(textfield_RegisterConfirmPass.getPassword());
+        if (password.equals(confirmPass)) {
+            // INSERT INTO users(fullname, email, username, password) VALUES ();
+            JOptionPane.showMessageDialog(this, "Registration successful!");
+        } else {
+            JOptionPane.showMessageDialog(this, "Passwords do not match. Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
+        }    }//GEN-LAST:event_button_RegisterActionPerformed
+
+    private void button_ToLoginFormActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_ToLoginFormActionPerformed
+        this.setVisible(false);
+        new FormLogin().setVisible(true);
+    }//GEN-LAST:event_button_ToLoginFormActionPerformed
+
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(() -> {
+            new FormRegister().setVisible(true);
+        });
         try {
-            
+
         } catch (Exception e) {
-            
+
         }
     }
 

@@ -4,12 +4,13 @@
  */
 package parking;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author LENOVO
  */
 public class FormRegister extends javax.swing.JFrame {
-
     /**
      * Creates new form FormRegister
      */
@@ -76,6 +77,11 @@ public class FormRegister extends javax.swing.JFrame {
 
         button_Register.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         button_Register.setText("REGISTER");
+        button_Register.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button_RegisterActionPerformed(evt);
+            }
+        });
 
         textfield_RegisterEmail.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
 
@@ -159,6 +165,10 @@ public class FormRegister extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void button_RegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_RegisterActionPerformed
+        
+    }//GEN-LAST:event_button_RegisterActionPerformed
 
     /**
      * @param args the command line arguments
