@@ -1,3 +1,11 @@
 /TicketAcara/build/
 /TicketParking/build/
 /TicketAcara/dist/
+TicketAcara/nbproject/private/private.properties
+TicketAcara/nbproject/private/private.xml
+TicketParking/nbproject/private/private.properties
+TicketParking/nbproject/private/private.xml
+TicketServer/nbproject/private/private.properties
+TicketServer/nbproject/private/private.xml
+TicketService/nbproject/private/private.properties
+TicketService/nbproject/private/private.xml
