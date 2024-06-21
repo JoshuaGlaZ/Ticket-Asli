@@ -14,3 +14,4 @@ TicketAcara/nbproject/private/private.xml
 TicketServer/nbproject/private/private.xml
 TicketService/build/web/WEB-INF/classes/com/ticket/services/TicketWebService.class
 TicketService/nbproject/private/private.properties
+/TicketService/dist/
