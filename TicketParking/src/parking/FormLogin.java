@@ -158,10 +158,6 @@ public class FormLogin extends javax.swing.JFrame {
         // Checking to user Database
     }
 
-    private void button_ToRegisterFormActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_button_ToRegisterFormActionPerformed
-        
-    }
-
     /**
      * @param args the command line arguments
      */

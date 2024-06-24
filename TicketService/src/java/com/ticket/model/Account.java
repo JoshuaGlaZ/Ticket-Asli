@@ -143,8 +143,5 @@ public class Account extends MyModel {
         }
             
         return collections;
-    }
-    
-    
-    
+    }    
 }
