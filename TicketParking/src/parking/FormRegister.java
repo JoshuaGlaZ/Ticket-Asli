@@ -189,7 +189,7 @@ public class FormRegister extends javax.swing.JFrame {
         password = new String(textfield_RegisterPassword.getPassword());
         confirmPass = new String(textfield_RegisterConfirmPass.getPassword());
         if (password.equals(confirmPass)) {
-            // INSERT INTO users(fullname, email, username, password) VALUES ();
+            // INSERT INTO users(username, password, email) VALUES ();
             JOptionPane.showMessageDialog(this, "Registration successful!");
         } else {
             JOptionPane.showMessageDialog(this, "Passwords do not match. Please try again.", "Error", JOptionPane.ERROR_MESSAGE);

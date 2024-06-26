@@ -44,6 +44,14 @@ public class Account extends MyModel {
         this.email = email;
         this.created_at = null;
     }    
+
+    public Account(String username, String password) {
+        this.id = 0;
+        this.username = username;
+        this.password = password;
+        this.email = null;
+        this.created_at = null;
+    }    
             
     public int getId() {
         return id;
@@ -83,17 +91,23 @@ public class Account extends MyModel {
     public void setCreated_at(Timestamp created_at) {
         this.created_at = created_at;
     }
-   
-    public boolean checkEmail() {
-        for (Object object : viewListData()) {
-            Account a = (Account)object;
-            if (a.getUsername().equals(this.getUsername())) {
+       
+    public boolean checkUser() {
+        try {
+            this.statement = (Statement) MyModel.conn.createStatement();
+            String query = "SELECT * FROM account WHERE username = ? and passowrd = ?;";
+            PreparedStatement preparedStatement = MyModel.conn.prepareStatement(query);
+            preparedStatement.setString(1, this.username);
+            preparedStatement.setString(2, this.password);
+            this.result = preparedStatement.executeQuery();
+            if (this.result.next()) {
                 return true;
             }
+        } catch (Exception e) {
+            System.out.println("Error di checkUser account: " + e);
         }
         return false;
     }
-
     @Override
     public void insertData() {
         try {
@@ -127,7 +141,7 @@ public class Account extends MyModel {
         ArrayList<Object> collections = new ArrayList<>();
         try {
             this.statement = (Statement) MyModel.conn.createStatement();
-            this.result = this.statement.executeQuery("SELECT * FROM account;");
+            this.result = this.statement.executeQuery("SELECT * FROM users;");
             while (this.result.next()) {
                 Account a = new Account(
                         this.result.getInt("id"),
