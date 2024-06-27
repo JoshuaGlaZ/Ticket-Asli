@@ -24,3 +24,4 @@
 
 # Specific class file
 /TicketService/build/web/WEB-INF/classes/com/ticket/services/TicketWebService.class
+/TicketParking/dist/
