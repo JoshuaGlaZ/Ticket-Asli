@@ -5,12 +5,18 @@
 package parking;
 
 import java.awt.Color;
+import com.ticket.services.TicketWebService;
+import com.ticket.services.TicketWebService_Service;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author LENOVO
  */
 public class FormLogin extends javax.swing.JFrame {
+
+    String username;
+    String password;
 
     /**
      * Creates new form FormLogin
@@ -155,7 +161,17 @@ public class FormLogin extends javax.swing.JFrame {
     }//GEN-LAST:event_linkRegisterMouseExited
 
     private void button_LoginActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_button_LoginActionPerformed
-        // Checking to user Database
+        username = textfield_LoginUsername.getText();
+        password = new String(textfield_LoginPassword.getPassword());
+        if (checkUser(username, password)) {
+            JOptionPane.showMessageDialog(this, "Login successful!");
+            // Proceed to the next step, such as opening the main application window
+            // new MainApplicationWindow().setVisible(true);
+            this.setVisible(false);
+            new FormReserve().setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(this, "Invalid username or password", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     /**
@@ -181,4 +197,10 @@ public class FormLogin extends javax.swing.JFrame {
     private javax.swing.JPasswordField textfield_LoginPassword;
     private javax.swing.JTextField textfield_LoginUsername;
     // End of variables declaration//GEN-END:variables
+
+    private static Boolean checkUser(java.lang.String username, java.lang.String password) {
+        com.ticket.services.TicketWebService_Service service = new com.ticket.services.TicketWebService_Service();
+        com.ticket.services.TicketWebService port = service.getTicketWebServicePort();
+        return port.checkUser(username, password);
+    }
 }

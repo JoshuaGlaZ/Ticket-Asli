@@ -5,6 +5,7 @@
 package com.ticket.model;
 
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -95,7 +96,7 @@ public class Account extends MyModel {
     public boolean checkUser() {
         try {
             this.statement = (Statement) MyModel.conn.createStatement();
-            String query = "SELECT * FROM account WHERE username = ? and passowrd = ?;";
+            String query = "SELECT * FROM account WHERE username = ? and password = ?;";
             PreparedStatement preparedStatement = MyModel.conn.prepareStatement(query);
             preparedStatement.setString(1, this.username);
             preparedStatement.setString(2, this.password);
@@ -103,7 +104,7 @@ public class Account extends MyModel {
             if (this.result.next()) {
                 return true;
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
             System.out.println("Error di checkUser account: " + e);
         }
         return false;
@@ -112,16 +113,16 @@ public class Account extends MyModel {
     public void insertData() {
         try {
             if (!MyModel.conn.isClosed()) {
-                PreparedStatement sql = (PreparedStatement) MyModel.conn.prepareStatement(
+                try (PreparedStatement sql = (PreparedStatement) MyModel.conn.prepareStatement(
                         "INSERT INTO account(username, password, email) "
-                                + "VALUES (?, ?, ?)");
-                sql.setString(1, this.username);
-                sql.setString(2, this.password);
-                sql.setString(3, this.email);
-                sql.executeUpdate();
-                sql.close();
+                                + "VALUES (?, ?, ?)")) {
+                    sql.setString(1, this.username);
+                    sql.setString(2, this.password);
+                    sql.setString(3, this.email);
+                    sql.executeUpdate();
+                }
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
             System.out.println("Error di insertData account: " + e);
         }
     }
@@ -152,7 +153,7 @@ public class Account extends MyModel {
                 );
                 collections.add(a);
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
             System.out.println("Error di viewListData: " + e);
         }
             
