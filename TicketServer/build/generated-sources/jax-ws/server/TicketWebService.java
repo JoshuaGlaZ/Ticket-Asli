@@ -1,6 +1,8 @@
 
 package server;
 
+import java.util.List;
+import javax.jws.Oneway;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebResult;
@@ -23,6 +25,54 @@ import javax.xml.ws.ResponseWrapper;
 })
 public interface TicketWebService {
 
+
+    /**
+     * 
+     * @param password
+     * @param email
+     * @param username
+     */
+    @WebMethod
+    @Oneway
+    @RequestWrapper(localName = "insertUser", targetNamespace = "http://services.ticket.com/", className = "server.InsertUser")
+    @Action(input = "http://services.ticket.com/TicketWebService/insertUser")
+    public void insertUser(
+        @WebParam(name = "username", targetNamespace = "")
+        String username,
+        @WebParam(name = "password", targetNamespace = "")
+        String password,
+        @WebParam(name = "email", targetNamespace = "")
+        String email);
+
+    /**
+     * 
+     * @return
+     *     returns java.util.List<java.lang.Object>
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "viewListUser", targetNamespace = "http://services.ticket.com/", className = "server.ViewListUser")
+    @ResponseWrapper(localName = "viewListUserResponse", targetNamespace = "http://services.ticket.com/", className = "server.ViewListUserResponse")
+    @Action(input = "http://services.ticket.com/TicketWebService/viewListUserRequest", output = "http://services.ticket.com/TicketWebService/viewListUserResponse")
+    public List<Object> viewListUser();
+
+    /**
+     * 
+     * @param password
+     * @param username
+     * @return
+     *     returns java.lang.Boolean
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "checkUser", targetNamespace = "http://services.ticket.com/", className = "server.CheckUser")
+    @ResponseWrapper(localName = "checkUserResponse", targetNamespace = "http://services.ticket.com/", className = "server.CheckUserResponse")
+    @Action(input = "http://services.ticket.com/TicketWebService/checkUserRequest", output = "http://services.ticket.com/TicketWebService/checkUserResponse")
+    public Boolean checkUser(
+        @WebParam(name = "username", targetNamespace = "")
+        String username,
+        @WebParam(name = "password", targetNamespace = "")
+        String password);
 
     /**
      * 
