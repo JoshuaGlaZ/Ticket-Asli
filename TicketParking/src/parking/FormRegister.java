@@ -30,8 +30,7 @@ public class FormRegister extends javax.swing.JFrame implements Runnable {
     public FormRegister() {
         initComponents();
         try {
-//            clientSocket = new Socket("kresnayangasli.my.id", 47780);
-            clientSocket = new Socket("localhost", 6002);
+            clientSocket = new Socket("127.0.0.1", 6002);
         } catch (IOException ex) {
             Logger.getLogger(FormRegister.class.getName()).log(Level.SEVERE, null, ex);
         }

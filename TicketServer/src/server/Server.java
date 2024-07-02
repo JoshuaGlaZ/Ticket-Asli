@@ -23,7 +23,7 @@ public class Server implements Runnable{
         try {
             s = new ServerSocket(6002);
             if (t == null) {
-                t = new Thread(this, "Simple Chat");
+                t = new Thread(this, "Ticketing System");
                 t.start();
             }
         } catch (Exception e) {
@@ -41,7 +41,7 @@ public class Server implements Runnable{
                 clients.add(hs);
             }
         } catch (Exception e) {
-            System.out.println("error di run " + e);
+            System.out.println("Error di Run " + e);
         }
     }
     

@@ -28,18 +28,6 @@ public interface TicketWebService {
 
     /**
      * 
-     * @return
-     *     returns java.util.List<java.lang.Object>
-     */
-    @WebMethod
-    @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "viewListUser", targetNamespace = "http://services.ticket.com/", className = "server.ViewListUser")
-    @ResponseWrapper(localName = "viewListUserResponse", targetNamespace = "http://services.ticket.com/", className = "server.ViewListUserResponse")
-    @Action(input = "http://services.ticket.com/TicketWebService/viewListUserRequest", output = "http://services.ticket.com/TicketWebService/viewListUserResponse")
-    public List<Object> viewListUser();
-
-    /**
-     * 
      * @param password
      * @param email
      * @param username
@@ -58,21 +46,6 @@ public interface TicketWebService {
 
     /**
      * 
-     * @param name
-     * @return
-     *     returns java.lang.String
-     */
-    @WebMethod
-    @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "hello", targetNamespace = "http://services.ticket.com/", className = "server.Hello")
-    @ResponseWrapper(localName = "helloResponse", targetNamespace = "http://services.ticket.com/", className = "server.HelloResponse")
-    @Action(input = "http://services.ticket.com/TicketWebService/helloRequest", output = "http://services.ticket.com/TicketWebService/helloResponse")
-    public String hello(
-        @WebParam(name = "name", targetNamespace = "")
-        String name);
-
-    /**
-     * 
      * @param password
      * @param username
      * @return
@@ -88,5 +61,32 @@ public interface TicketWebService {
         String username,
         @WebParam(name = "password", targetNamespace = "")
         String password);
+
+    /**
+     * 
+     * @param name
+     * @return
+     *     returns java.lang.String
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "hello", targetNamespace = "http://services.ticket.com/", className = "server.Hello")
+    @ResponseWrapper(localName = "helloResponse", targetNamespace = "http://services.ticket.com/", className = "server.HelloResponse")
+    @Action(input = "http://services.ticket.com/TicketWebService/helloRequest", output = "http://services.ticket.com/TicketWebService/helloResponse")
+    public String hello(
+        @WebParam(name = "name", targetNamespace = "")
+        String name);
+
+    /**
+     * 
+     * @return
+     *     returns java.util.List<java.lang.Object>
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "viewListUser", targetNamespace = "http://services.ticket.com/", className = "server.ViewListUser")
+    @ResponseWrapper(localName = "viewListUserResponse", targetNamespace = "http://services.ticket.com/", className = "server.ViewListUserResponse")
+    @Action(input = "http://services.ticket.com/TicketWebService/viewListUserRequest", output = "http://services.ticket.com/TicketWebService/viewListUserResponse")
+    public List<Object> viewListUser();
 
 }

@@ -17,5 +17,4 @@ public class TicketServer {
         // TODO code application logic here
         Server s = new Server();
     }
-    
 }

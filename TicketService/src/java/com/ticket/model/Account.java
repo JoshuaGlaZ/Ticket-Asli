@@ -85,6 +85,7 @@ public class Account extends MyModel {
     public void setEmail(String email) {
         this.email = email;
     }
+    
     public Timestamp getCreated_at() {
         return created_at;
     }
@@ -128,7 +129,7 @@ public class Account extends MyModel {
 
     @Override
     public void updateData() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        
     }
 
     @Override
