@@ -30,10 +30,7 @@ public abstract class MyModel {
         if (MyModel.conn == null) {
             try {
                 Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
-//                return DriverManager.getConnection("jdbc:mysql://kresnayangasli.my.id:47780/tiket_asli", 
-//                        "dp_uas", "dp*1234567890");
-                return DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/tiket-asli", 
-                        "root", "root");
+                return DriverManager.getConnection("jdbc:mysql://kresnayangasli.my.id:47780/tiket_asli", "dp_uas", "dp*1234567890");
             } catch (Exception e) {
                 System.out.println("Error di getConnection: " + e);
             }

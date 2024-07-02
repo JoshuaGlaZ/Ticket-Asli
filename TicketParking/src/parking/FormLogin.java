@@ -5,8 +5,6 @@
 package parking;
 
 import java.awt.Color;
-import com.ticket.services.TicketWebService;
-import com.ticket.services.TicketWebService_Service;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -27,9 +25,6 @@ public class FormLogin extends javax.swing.JFrame implements Runnable {
     String username;
     String password;
 
-    /**
-     * Creates new form FormLogin
-     */
     public FormLogin() {
         initComponents();
         try {
@@ -179,7 +174,7 @@ public class FormLogin extends javax.swing.JFrame implements Runnable {
         linkRegister.setText("Create now");
     }//GEN-LAST:event_linkRegisterMouseExited
 
-    private void button_LoginActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_button_LoginActionPerformed
+    private void button_LoginActionPerformed(java.awt.event.ActionEvent evt) {
         username = textfield_LoginUsername.getText();
         password = new String(textfield_LoginPassword.getPassword());
         try {

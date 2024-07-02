@@ -159,26 +159,26 @@ public class FormLogin extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void linkRegisterMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_linkRegisterMouseClicked
+    private void linkRegisterMouseClicked(java.awt.event.MouseEvent evt) {
         this.setVisible(false);
         new FormRegister().setVisible(true);
-    }// GEN-LAST:event_linkRegisterMouseClicked
+    }
 
-    private void linkRegisterMouseEntered(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_linkRegisterMouseEntered
+    private void linkRegisterMouseEntered(java.awt.event.MouseEvent evt) {
         linkRegister.setForeground(Color.BLUE);
         linkRegister.setText("<html><u>Create now</u></html>");
-    }// GEN-LAST:event_linkRegisterMouseEntered
+    }
 
-    private void linkRegisterMouseExited(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_linkRegisterMouseExited
+    private void linkRegisterMouseExited(java.awt.event.MouseEvent evt) {
         linkRegister.setForeground(new Color(60, 63, 65));
         linkRegister.setText("Create now");
-    }// GEN-LAST:event_linkRegisterMouseExited
+    }
 
-    private void button_LoginActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_button_LoginActionPerformed
+    private void button_LoginActionPerformed(java.awt.event.ActionEvent evt) {
         // Checking to user Database
     }
 
-    private void button_ToRegisterFormActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_button_ToRegisterFormActionPerformed
+    private void button_ToRegisterFormActionPerformed(java.awt.event.ActionEvent evt) {
 
     }
 

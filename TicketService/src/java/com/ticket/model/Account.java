@@ -96,7 +96,7 @@ public class Account extends MyModel {
     public boolean checkUser() {
         try {
             this.statement = (Statement) MyModel.conn.createStatement();
-            String query = "SELECT * FROM account WHERE username = ? and password = ?;";
+            String query = "SELECT * FROM users WHERE username = ? and password = ?;";
             PreparedStatement preparedStatement = MyModel.conn.prepareStatement(query);
             preparedStatement.setString(1, this.username);
             preparedStatement.setString(2, this.password);
@@ -114,8 +114,7 @@ public class Account extends MyModel {
         try {
             if (!MyModel.conn.isClosed()) {
                 try (PreparedStatement sql = (PreparedStatement) MyModel.conn.prepareStatement(
-                        "INSERT INTO account(username, password, email) "
-                                + "VALUES (?, ?, ?)")) {
+                        "INSERT INTO users(username, password, email) VALUES (?, ?, ?)")) {
                     sql.setString(1, this.username);
                     sql.setString(2, this.password);
                     sql.setString(3, this.email);
