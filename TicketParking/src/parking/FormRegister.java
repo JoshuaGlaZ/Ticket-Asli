@@ -8,12 +8,21 @@ import java.awt.Color;
 import javax.swing.JOptionPane;
 import com.ticket.services.TicketWebService;
 import com.ticket.services.TicketWebService_Service;
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author LENOVO
  */
-public class FormRegister extends javax.swing.JFrame {
+public class FormRegister extends javax.swing.JFrame implements Runnable{
+    Socket clientSocket;
+    Thread t;
     String email = "";
     String username = "";
     String password = "";
@@ -24,6 +33,16 @@ public class FormRegister extends javax.swing.JFrame {
      */
     public FormRegister() {
         initComponents();
+        try {
+//            clientSocket = new Socket("kresnayangasli.my.id", 47780);
+            clientSocket = new Socket("localhost", 6002);
+        } catch (IOException ex) {
+            Logger.getLogger(FormRegister.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            if (t == null) {
+                t = new Thread(this, "Account Registration");
+                t.start();
+            }
         this.setLocationRelativeTo(null);
     }
 
@@ -213,12 +232,13 @@ public class FormRegister extends javax.swing.JFrame {
         if (!password.equals(confirmPass)) {
             JOptionPane.showMessageDialog(this, "Gagal, Password tidak cocok !");
         } else if (password.equals(confirmPass)){
-            insertUser(username, password, email);
-            JOptionPane.showMessageDialog(this, "Selamat, anda berhasil terdaftar! Silahkan Login!");
-            this.setVisible(false);
-            new FormLogin().setVisible(true);
-        } else {
-            JOptionPane.showMessageDialog(this, "Gagal, email sudah terdaftar");
+            try {
+                DataOutputStream sendToServer
+                        = new DataOutputStream(clientSocket.getOutputStream());
+                sendToServer.writeBytes("REGISTER~" + username + "~" + password  + "~" + email +"\n");
+            } catch (IOException ex) {
+                Logger.getLogger(FormRegister.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }// GEN-LAST:event_button_RegisterActionPerformed
     
@@ -268,10 +288,32 @@ public class FormRegister extends javax.swing.JFrame {
     private javax.swing.JTextField textfield_RegisterUsername;
     // End of variables declaration//GEN-END:variables
 
-    private static void insertUser(java.lang.String username, java.lang.String password, java.lang.String email) {
-        com.ticket.services.TicketWebService_Service service = new com.ticket.services.TicketWebService_Service();
-        com.ticket.services.TicketWebService port = service.getTicketWebServicePort();
-        port.insertUser(username, password, email);
+    @Override
+    public void run() {
+        try {
+            while (true) {
+                getMessage();
+            }
+        } catch (Exception e) {
+            System.out.println("Error di Register > \"Run\" methods : " + e);
+        }
     }
 
+    public void getMessage() {
+        try {
+            String chatServer = "";
+            BufferedReader chatFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+            chatServer = chatFromServer.readLine();
+            if (chatServer.equals("SUCCESS")) {
+                JOptionPane.showMessageDialog(this, "Register success. You can login now.");
+                FormLogin login = new FormLogin();
+                login.setVisible(true);
+                this.setVisible(false);
+            } else {
+                JOptionPane.showMessageDialog(this, "Register failed. Please try again.");
+            }
+        } catch (IOException ex) {
+            System.out.println("Error di Register > \"GetMessage\" methods : " + ex);
+        }
+    }
 }

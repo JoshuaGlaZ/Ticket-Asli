@@ -7,14 +7,23 @@ package parking;
 import java.awt.Color;
 import com.ticket.services.TicketWebService;
 import com.ticket.services.TicketWebService_Service;
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
  *
  * @author LENOVO
  */
-public class FormLogin extends javax.swing.JFrame {
+public class FormLogin extends javax.swing.JFrame implements Runnable {
 
+    Socket clientSocket;
+    Thread t;
     String username;
     String password;
 
@@ -23,6 +32,16 @@ public class FormLogin extends javax.swing.JFrame {
      */
     public FormLogin() {
         initComponents();
+        try {
+//            clientSocket = new Socket("kresnayangasli.my.id", 47780);
+            clientSocket = new Socket("localhost", 6002);
+        } catch (IOException ex) {
+            Logger.getLogger(FormRegister.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if (t == null) {
+            t = new Thread(this, "Account Registration");
+            t.start();
+        }
         this.setLocationRelativeTo(null);
     }
 
@@ -163,14 +182,11 @@ public class FormLogin extends javax.swing.JFrame {
     private void button_LoginActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_button_LoginActionPerformed
         username = textfield_LoginUsername.getText();
         password = new String(textfield_LoginPassword.getPassword());
-        if (checkUser(username, password)) {
-            JOptionPane.showMessageDialog(this, "Login successful!");
-            // Proceed to the next step, such as opening the main application window
-            // new MainApplicationWindow().setVisible(true);
-            this.setVisible(false);
-            new FormReserve().setVisible(true);
-        } else {
-            JOptionPane.showMessageDialog(this, "Invalid username or password", "Error", JOptionPane.ERROR_MESSAGE);
+        try {
+            DataOutputStream sendToServer = new DataOutputStream(clientSocket.getOutputStream());
+            sendToServer.writeBytes("LOGIN~" + username + "~" + password + "\n");
+        } catch (IOException ex) {
+            Logger.getLogger(FormRegister.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -198,9 +214,32 @@ public class FormLogin extends javax.swing.JFrame {
     private javax.swing.JTextField textfield_LoginUsername;
     // End of variables declaration//GEN-END:variables
 
-    private static Boolean checkUser(java.lang.String username, java.lang.String password) {
-        com.ticket.services.TicketWebService_Service service = new com.ticket.services.TicketWebService_Service();
-        com.ticket.services.TicketWebService port = service.getTicketWebServicePort();
-        return port.checkUser(username, password);
+    @Override
+    public void run() {
+        try {
+            while (true) {
+                getMessage();
+            }
+        } catch (Exception e) {
+            System.out.println("Error di Login > \"Run\" methods : " + e);
+        }
+    }
+
+    public void getMessage() {
+        try {
+            String chatServer = "";
+            BufferedReader chatFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+            chatServer = chatFromServer.readLine();
+            if (chatServer.equals("SUCCESS")) {
+                JOptionPane.showMessageDialog(this, "Login success.");
+                FormReserve parkReservation = new FormReserve();
+                parkReservation.setVisible(true);
+                this.setVisible(false);
+            } else {
+                JOptionPane.showMessageDialog(this, "Register failed. Please try again.");
+            }
+        } catch (IOException ex) {
+            System.out.println("Error di Register > \"GetMessage\" methods : " + ex);
+        }
     }
 }
