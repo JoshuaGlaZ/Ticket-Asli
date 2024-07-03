@@ -28,21 +28,18 @@ public interface TicketWebService {
 
     /**
      * 
-     * @param password
-     * @param email
-     * @param username
+     * @param name
+     * @return
+     *     returns java.lang.String
      */
     @WebMethod
-    @Oneway
-    @RequestWrapper(localName = "insertUser", targetNamespace = "http://services.ticket.com/", className = "server.InsertUser")
-    @Action(input = "http://services.ticket.com/TicketWebService/insertUser")
-    public void insertUser(
-        @WebParam(name = "username", targetNamespace = "")
-        String username,
-        @WebParam(name = "password", targetNamespace = "")
-        String password,
-        @WebParam(name = "email", targetNamespace = "")
-        String email);
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "hello", targetNamespace = "http://services.ticket.com/", className = "server.Hello")
+    @ResponseWrapper(localName = "helloResponse", targetNamespace = "http://services.ticket.com/", className = "server.HelloResponse")
+    @Action(input = "http://services.ticket.com/TicketWebService/helloRequest", output = "http://services.ticket.com/TicketWebService/helloResponse")
+    public String hello(
+        @WebParam(name = "name", targetNamespace = "")
+        String name);
 
     /**
      * 
@@ -64,18 +61,21 @@ public interface TicketWebService {
 
     /**
      * 
-     * @param name
-     * @return
-     *     returns java.lang.String
+     * @param password
+     * @param email
+     * @param username
      */
     @WebMethod
-    @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "hello", targetNamespace = "http://services.ticket.com/", className = "server.Hello")
-    @ResponseWrapper(localName = "helloResponse", targetNamespace = "http://services.ticket.com/", className = "server.HelloResponse")
-    @Action(input = "http://services.ticket.com/TicketWebService/helloRequest", output = "http://services.ticket.com/TicketWebService/helloResponse")
-    public String hello(
-        @WebParam(name = "name", targetNamespace = "")
-        String name);
+    @Oneway
+    @RequestWrapper(localName = "insertUser", targetNamespace = "http://services.ticket.com/", className = "server.InsertUser")
+    @Action(input = "http://services.ticket.com/TicketWebService/insertUser")
+    public void insertUser(
+        @WebParam(name = "username", targetNamespace = "")
+        String username,
+        @WebParam(name = "password", targetNamespace = "")
+        String password,
+        @WebParam(name = "email", targetNamespace = "")
+        String email);
 
     /**
      * 

@@ -4,8 +4,11 @@
 <xsd:import namespace="http://services.ticket.com/" schemaLocation="http://localhost:8080/TicketService/TicketWebService?xsd=1"/>
 </xsd:schema>
 </types>
-<message name="insertUser">
-<part name="parameters" element="tns:insertUser"/>
+<message name="hello">
+<part name="parameters" element="tns:hello"/>
+</message>
+<message name="helloResponse">
+<part name="parameters" element="tns:helloResponse"/>
 </message>
 <message name="checkUser">
 <part name="parameters" element="tns:checkUser"/>
@@ -13,11 +16,8 @@
 <message name="checkUserResponse">
 <part name="parameters" element="tns:checkUserResponse"/>
 </message>
-<message name="hello">
-<part name="parameters" element="tns:hello"/>
-</message>
-<message name="helloResponse">
-<part name="parameters" element="tns:helloResponse"/>
+<message name="insertUser">
+<part name="parameters" element="tns:insertUser"/>
 </message>
 <message name="viewListUser">
 <part name="parameters" element="tns:viewListUser"/>
@@ -26,16 +26,16 @@
 <part name="parameters" element="tns:viewListUserResponse"/>
 </message>
 <portType name="TicketWebService">
-<operation name="insertUser">
-<input wsam:Action="http://services.ticket.com/TicketWebService/insertUser" message="tns:insertUser"/>
+<operation name="hello">
+<input wsam:Action="http://services.ticket.com/TicketWebService/helloRequest" message="tns:hello"/>
+<output wsam:Action="http://services.ticket.com/TicketWebService/helloResponse" message="tns:helloResponse"/>
 </operation>
 <operation name="checkUser">
 <input wsam:Action="http://services.ticket.com/TicketWebService/checkUserRequest" message="tns:checkUser"/>
 <output wsam:Action="http://services.ticket.com/TicketWebService/checkUserResponse" message="tns:checkUserResponse"/>
 </operation>
-<operation name="hello">
-<input wsam:Action="http://services.ticket.com/TicketWebService/helloRequest" message="tns:hello"/>
-<output wsam:Action="http://services.ticket.com/TicketWebService/helloResponse" message="tns:helloResponse"/>
+<operation name="insertUser">
+<input wsam:Action="http://services.ticket.com/TicketWebService/insertUser" message="tns:insertUser"/>
 </operation>
 <operation name="viewListUser">
 <input wsam:Action="http://services.ticket.com/TicketWebService/viewListUserRequest" message="tns:viewListUser"/>
@@ -44,11 +44,14 @@
 </portType>
 <binding name="TicketWebServicePortBinding" type="tns:TicketWebService">
 <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
-<operation name="insertUser">
+<operation name="hello">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>
 </input>
+<output>
+<soap:body use="literal"/>
+</output>
 </operation>
 <operation name="checkUser">
 <soap:operation soapAction=""/>
@@ -59,14 +62,11 @@
 <soap:body use="literal"/>
 </output>
 </operation>
-<operation name="hello">
+<operation name="insertUser">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>
 </input>
-<output>
-<soap:body use="literal"/>
-</output>
 </operation>
 <operation name="viewListUser">
 <soap:operation soapAction=""/>
