@@ -34,6 +34,10 @@ public class HandleSocket extends Thread{
         }
     }
 
+    HandleSocket(Socket incoming) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
     public void sendMessage(String msg) {
         try {
             out.writeBytes(msg + "\n");

@@ -29,6 +29,8 @@ public class ObjectFactory {
     private final static QName _Hello_QNAME = new QName("http://services.ticket.com/", "hello");
     private final static QName _HelloResponse_QNAME = new QName("http://services.ticket.com/", "helloResponse");
     private final static QName _InsertUser_QNAME = new QName("http://services.ticket.com/", "insertUser");
+    private final static QName _ReserveNewLot_QNAME = new QName("http://services.ticket.com/", "reserveNewLot");
+    private final static QName _ReserveNewLotResponse_QNAME = new QName("http://services.ticket.com/", "reserveNewLotResponse");
     private final static QName _ViewListUser_QNAME = new QName("http://services.ticket.com/", "viewListUser");
     private final static QName _ViewListUserResponse_QNAME = new QName("http://services.ticket.com/", "viewListUserResponse");
 
@@ -80,6 +82,22 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link ReserveNewLot }
+     * 
+     */
+    public ReserveNewLot createReserveNewLot() {
+        return new ReserveNewLot();
+    }
+
+    /**
+     * Create an instance of {@link ReserveNewLotResponse }
+     * 
+     */
+    public ReserveNewLotResponse createReserveNewLotResponse() {
+        return new ReserveNewLotResponse();
+    }
+
+    /**
      * Create an instance of {@link ViewListUser }
      * 
      */
@@ -93,6 +111,14 @@ public class ObjectFactory {
      */
     public ViewListUserResponse createViewListUserResponse() {
         return new ViewListUserResponse();
+    }
+
+    /**
+     * Create an instance of {@link Date }
+     * 
+     */
+    public Date createDate() {
+        return new Date();
     }
 
     /**
@@ -158,6 +184,32 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "http://services.ticket.com/", name = "insertUser")
     public JAXBElement<InsertUser> createInsertUser(InsertUser value) {
         return new JAXBElement<InsertUser>(_InsertUser_QNAME, InsertUser.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link ReserveNewLot }{@code >}
+     * 
+     * @param value
+     *     Java instance representing xml element's value.
+     * @return
+     *     the new instance of {@link JAXBElement }{@code <}{@link ReserveNewLot }{@code >}
+     */
+    @XmlElementDecl(namespace = "http://services.ticket.com/", name = "reserveNewLot")
+    public JAXBElement<ReserveNewLot> createReserveNewLot(ReserveNewLot value) {
+        return new JAXBElement<ReserveNewLot>(_ReserveNewLot_QNAME, ReserveNewLot.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link ReserveNewLotResponse }{@code >}
+     * 
+     * @param value
+     *     Java instance representing xml element's value.
+     * @return
+     *     the new instance of {@link JAXBElement }{@code <}{@link ReserveNewLotResponse }{@code >}
+     */
+    @XmlElementDecl(namespace = "http://services.ticket.com/", name = "reserveNewLotResponse")
+    public JAXBElement<ReserveNewLotResponse> createReserveNewLotResponse(ReserveNewLotResponse value) {
+        return new JAXBElement<ReserveNewLotResponse>(_ReserveNewLotResponse_QNAME, ReserveNewLotResponse.class, null, value);
     }
 
     /**

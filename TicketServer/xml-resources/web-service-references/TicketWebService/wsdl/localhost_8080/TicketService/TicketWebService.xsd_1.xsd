@@ -10,6 +10,10 @@
 
 <xs:element name="insertUser" type="tns:insertUser"/>
 
+<xs:element name="reserveNewLot" type="tns:reserveNewLot"/>
+
+<xs:element name="reserveNewLotResponse" type="tns:reserveNewLotResponse"/>
+
 <xs:element name="viewListUser" type="tns:viewListUser"/>
 
 <xs:element name="viewListUserResponse" type="tns:viewListUserResponse"/>
@@ -22,6 +26,26 @@
 <xs:sequence>
 <xs:element name="return" type="xs:anyType" minOccurs="0" maxOccurs="unbounded"/>
 </xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="reserveNewLot">
+<xs:sequence>
+<xs:element name="parking_lot_id" type="xs:int"/>
+<xs:element name="user_id" type="xs:int"/>
+<xs:element name="start_date" type="tns:date" minOccurs="0"/>
+<xs:element name="end_date" type="tns:date" minOccurs="0"/>
+<xs:element name="lot_number" type="xs:int"/>
+<xs:element name="harga" type="xs:int"/>
+<xs:element name="jenis_tiket" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="date">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="reserveNewLotResponse">
+<xs:sequence/>
 </xs:complexType>
 
 <xs:complexType name="insertUser">

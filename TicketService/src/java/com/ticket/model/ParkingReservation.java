@@ -5,7 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.Timestamp;
+import java.sql.Date;
 import java.util.ArrayList;
 
 /**
@@ -16,7 +16,8 @@ public class ParkingReservation extends MyModel {
     private int id;
     private int parking_lot_id;
     private int user_id;
-    private Timestamp created_at;
+    private Date start_date;
+    private Date end_date;
     private int lot_number;
     private int harga;
     private String jenis_tiket;
@@ -25,17 +26,19 @@ public class ParkingReservation extends MyModel {
         this.id = 0;
         this.parking_lot_id = 0;
         this.user_id = 0;
-        this.created_at = null;
+        this.start_date = null;
+        this.end_date = null;
         this.lot_number = 0;
         this.harga = 0;
         this.jenis_tiket = null;
     }
 
     // Getter and Setter methods...
-    public ParkingReservation(int _parking_lot_id, int _user_id, Timestamp _created_at, int _lot_number, int _harga, String _jenis_tiket) {
+    public ParkingReservation(int _parking_lot_id, int _user_id, Date _start_date, Date _end_date, int _lot_number, int _harga, String _jenis_tiket) {
         this.parking_lot_id = _parking_lot_id;
         this.user_id = _user_id;
-        this.created_at = _created_at;
+        this.start_date = _start_date;
+        this.end_date = _end_date;
         this.lot_number = _lot_number;
         this.harga = _harga;
         this.jenis_tiket = _jenis_tiket;
@@ -43,61 +46,88 @@ public class ParkingReservation extends MyModel {
 
     @Override
     public void insertData() {
-//        try (PreparedStatement sql = MyModel.conn.prepareStatement("INSERT INTO myvehicle(number_plate, brand, vehicle_class, color) VALUES(?, ?, ?, ?)")) {
-//            sql.setString(1, this.number_plate);
-//            sql.setString(2, this.brand);
-//            sql.setInt(3, this.vehicle_class);
-//            sql.setString(4, this.color);
-//            sql.executeUpdate();
-//        } catch (SQLException e) {
-//            System.out.println("Error in insertData: " + e.getMessage());
-//        }
+        try {
+            if (!MyModel.conn.isClosed()) {
+                PreparedStatement sql = MyModel.conn.prepareStatement(
+                        "INSERT INTO parkingreservations(parking_lot_id, user_id, start_date, end_date, lot_number, harga, jenis_tiket) VALUES (?, ?, ?, ?, ?, ?)"
+                );
+                sql.setInt(1, this.parking_lot_id);
+                sql.setInt(2, this.user_id);
+                sql.setDate(3, this.start_date);
+                sql.setDate(4, this.end_date);
+                sql.setInt(5, this.lot_number);
+                sql.setInt(6, this.harga);
+                sql.setString(7, this.jenis_tiket);
+                sql.executeUpdate();
+                sql.close();
+            }
+        } catch (SQLException e) {
+            System.out.println("Error in insertData: " + e);
+        }
     }
 
     @Override
     public void updateData() {
-//        try (PreparedStatement sql = MyModel.conn.prepareStatement("UPDATE myvehicle SET number_plate = ?, brand = ?, vehicle_class = ?, color = ?, updated_at = ? WHERE id = ?")) {
-//            sql.setString(1, this.number_plate);
-//            sql.setString(2, this.brand);
-//            sql.setInt(3, this.vehicle_class);
-//            sql.setString(4, this.color);
-//            sql.setTimestamp(5, this.updated_at);
-//            sql.setInt(6, this.id);
-//            sql.executeUpdate();
+//        try {
+//            if (!MyModel.conn.isClosed()) {
+//                PreparedStatement sql = MyModel.conn.prepareStatement(
+//                        "UPDATE parkingreservations SET parking_lot_id = ?, user_id = ?, start_date = ?, end_date = ?, lot_number = ?, harga = ?, jenis_tiket = ? WHERE id = ?"
+//                );
+//                sql.setInt(1, this.parking_lot_id);
+//                sql.setInt(2, this.user_id);
+//                sql.setDate(3, this.start_date);
+//                sql.setDate(4, this.end_date);
+//                sql.setInt(5, this.lot_number);
+//                sql.setInt(6, this.harga);
+//                sql.setString(7, this.jenis_tiket);
+//                sql.setInt(8, this.id);
+//                sql.executeUpdate();
+//                sql.close();
+//            }
 //        } catch (SQLException e) {
-//            System.out.println("Error in updateData: " + e.getMessage());
+//            System.out.println("Error in updateData: " + e);
 //        }
     }
 
     @Override
     public void deleteData() {
-//        try (PreparedStatement sql = MyModel.conn.prepareStatement("DELETE FROM myvehicle WHERE id = ?")) {
-//            sql.setInt(1, this.id);
-//            sql.executeUpdate();
-//        } catch (SQLException e) {
-//            System.out.println("Error in deleteData: " + e.getMessage());
-//        }
+        try {
+            if (!MyModel.conn.isClosed()) {
+                PreparedStatement sql = MyModel.conn.prepareStatement(
+                        "DELETE FROM parkingreservations WHERE id = ?"
+                );
+                sql.setInt(1, this.id);
+                sql.executeUpdate();
+                sql.close();
+            }
+        } catch (SQLException e) {
+            System.out.println("Error in deleteData: " + e);
+        }
     }
 
     @Override
     public ArrayList<Object> viewListData() {
         ArrayList<Object> collections = new ArrayList<>();
-//        try (Statement statement = MyModel.conn.createStatement(); ResultSet result = statement.executeQuery("SELECT * FROM myvehicle")) {
-//            while (result.next()) {
-//                ParkingLots vec = new ParkingLots(
-//                        result.getInt("id"),
-//                        result.getString("number_plate"),
-//                        result.getString("brand"),
-//                        result.getInt("vehicle_class"),
-//                        result.getString("color"),
-//                        result.getTimestamp("created_at"),
-//                        result.getTimestamp("updated_at")
-//                );
-//                collections.add(vec);
-//            }
-//        } catch (SQLException e) {
-//            System.out.println("Error in viewListData: " + e.getMessage());
-//        }
+        try {
+            this.statement = (Statement) MyModel.conn.createStatement();
+            this.result = this.statement.executeQuery("SELECT * FROM parkingreservations;");
+            while (this.result.next()) {
+                ParkingReservation pr = new ParkingReservation(
+                        result.getInt("parking_lot_id"),
+                        result.getInt("user_id"),
+                        result.getDate("start_date"),
+                        result.getDate("end_date"),
+                        result.getInt("lot_number"),
+                        result.getInt("harga"),
+                        result.getString("jenis_tiket")
+                );
+                collections.add(pr);
+            }
+            result.close();
+            statement.close();
+        } catch (SQLException e) {
+            System.out.println("Error in viewListData: " + e);
+        }
         return collections;
     }
 }

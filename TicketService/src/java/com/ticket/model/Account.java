@@ -106,7 +106,7 @@ public class Account extends MyModel {
                 return true;
             }
         } catch (SQLException e) {
-            System.out.println("Error di checkUser account: " + e);
+            System.out.println("Error in checkUser account: " + e);
         }
         return false;
     }
@@ -123,7 +123,7 @@ public class Account extends MyModel {
                 }
             }
         } catch (SQLException e) {
-            System.out.println("Error di insertData account: " + e);
+            System.out.println("Error in insertData account: " + e);
         }
     }
 
@@ -134,7 +134,6 @@ public class Account extends MyModel {
 
     @Override
     public void deleteData() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
@@ -153,10 +152,11 @@ public class Account extends MyModel {
                 );
                 collections.add(a);
             }
+            result.close();
+            statement.close();
         } catch (SQLException e) {
-            System.out.println("Error di viewListData: " + e);
+            System.out.println("Error in viewListData: " + e);
         }
-            
         return collections;
     }    
 }

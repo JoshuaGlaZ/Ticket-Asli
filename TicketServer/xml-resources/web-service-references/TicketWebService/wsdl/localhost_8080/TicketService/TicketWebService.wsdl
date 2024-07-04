@@ -4,6 +4,12 @@
 <xsd:import namespace="http://services.ticket.com/" schemaLocation="http://localhost:8080/TicketService/TicketWebService?xsd=1"/>
 </xsd:schema>
 </types>
+<message name="reserveNewLot">
+<part name="parameters" element="tns:reserveNewLot"/>
+</message>
+<message name="reserveNewLotResponse">
+<part name="parameters" element="tns:reserveNewLotResponse"/>
+</message>
 <message name="hello">
 <part name="parameters" element="tns:hello"/>
 </message>
@@ -26,6 +32,10 @@
 <part name="parameters" element="tns:viewListUserResponse"/>
 </message>
 <portType name="TicketWebService">
+<operation name="reserveNewLot">
+<input wsam:Action="http://services.ticket.com/TicketWebService/reserveNewLotRequest" message="tns:reserveNewLot"/>
+<output wsam:Action="http://services.ticket.com/TicketWebService/reserveNewLotResponse" message="tns:reserveNewLotResponse"/>
+</operation>
 <operation name="hello">
 <input wsam:Action="http://services.ticket.com/TicketWebService/helloRequest" message="tns:hello"/>
 <output wsam:Action="http://services.ticket.com/TicketWebService/helloResponse" message="tns:helloResponse"/>
@@ -52,6 +62,22 @@
 <output>
 <soap:body use="literal"/>
 </output>
+</operation>
+<operation name="checkUser">
+<operation name="reserveNewLot">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="insertUser">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
 </operation>
 <operation name="checkUser">
 <soap:operation soapAction=""/>

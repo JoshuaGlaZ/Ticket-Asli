@@ -28,6 +28,36 @@ public interface TicketWebService {
 
     /**
      * 
+     * @param harga
+     * @param endDate
+     * @param parkingLotId
+     * @param lotNumber
+     * @param userId
+     * @param startDate
+     * @param jenisTiket
+     */
+    @WebMethod
+    @RequestWrapper(localName = "reserveNewLot", targetNamespace = "http://services.ticket.com/", className = "server.ReserveNewLot")
+    @ResponseWrapper(localName = "reserveNewLotResponse", targetNamespace = "http://services.ticket.com/", className = "server.ReserveNewLotResponse")
+    @Action(input = "http://services.ticket.com/TicketWebService/reserveNewLotRequest", output = "http://services.ticket.com/TicketWebService/reserveNewLotResponse")
+    public void reserveNewLot(
+        @WebParam(name = "parking_lot_id", targetNamespace = "")
+        int parkingLotId,
+        @WebParam(name = "user_id", targetNamespace = "")
+        int userId,
+        @WebParam(name = "start_date", targetNamespace = "")
+        Date startDate,
+        @WebParam(name = "end_date", targetNamespace = "")
+        Date endDate,
+        @WebParam(name = "lot_number", targetNamespace = "")
+        int lotNumber,
+        @WebParam(name = "harga", targetNamespace = "")
+        int harga,
+        @WebParam(name = "jenis_tiket", targetNamespace = "")
+        String jenisTiket);
+
+    /**
+     * 
      * @param name
      * @return
      *     returns java.lang.String

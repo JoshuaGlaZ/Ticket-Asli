@@ -4,19 +4,41 @@
  */
 package parking;
 
+import java.io.IOException;
+import java.net.Socket;
 import javax.swing.JOptionPane;
+import java.sql.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author chris
  */
-public class FormReserve extends javax.swing.JFrame {
-
+public class FormReserve extends javax.swing.JFrame implements Runnable {
+    Socket clientSocket;
+    Thread t;
+    String venueName;
+    String location;
+    Date checkIn;
+    String type;
+    int price;
+    
     /**
      * Creates new form ParkingReservation
      */
     public FormReserve() {
         initComponents();
+        try {
+            clientSocket = new Socket("127.0.0.1", 6002);
+        } catch (IOException ex) {
+            Logger.getLogger(FormReserve.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if (t == null) {
+            t = new Thread(this, "Reserve New Parking Lot");
+            t.start();
+        }
+        this.setLocationRelativeTo(null);
     }
 
     /**
@@ -194,6 +216,11 @@ public class FormReserve extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void button_SubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_SubmitActionPerformed
+        venueName = combobox_VenueName.getSelectedItem().toString();
+        location = combobox_Location.getSelectedItem().toString();
+        checkIn = (Date) datechooser_CheckIn.getDate();
+        type = combobox_TicketType.getSelectedItem().toString();
+        price = Integer.parseInt(textfield_Price.toString());
         
     }//GEN-LAST:event_button_SubmitActionPerformed
 
@@ -248,4 +275,9 @@ public class FormReserve extends javax.swing.JFrame {
     private javax.swing.JTextField textfield_Price;
     private javax.swing.JTextField textfield_UserID;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void run() {
+        
+    }
 }

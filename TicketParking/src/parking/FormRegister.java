@@ -227,8 +227,7 @@ public class FormRegister extends javax.swing.JFrame implements Runnable {
             JOptionPane.showMessageDialog(this, "Gagal, Password tidak cocok !");
         } else if (password.equals(confirmPass)) {
             try {
-                DataOutputStream sendToServer
-                        = new DataOutputStream(clientSocket.getOutputStream());
+                DataOutputStream sendToServer = new DataOutputStream(clientSocket.getOutputStream());
                 sendToServer.writeBytes("REGISTER~" + username + "~" + password + "~" + email + "\n");
             } catch (IOException ex) {
                 Logger.getLogger(FormRegister.class.getName()).log(Level.SEVERE, null, ex);
