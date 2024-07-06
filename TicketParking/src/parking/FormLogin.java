@@ -19,17 +19,20 @@ import javax.swing.JOptionPane;
  * @author LENOVO
  */
 public class FormLogin extends javax.swing.JFrame implements Runnable {
-
     Socket clientSocket;
     Thread t;
     String username;
     String password;
+    DataOutputStream out;
+    BufferedReader in;
 
     public FormLogin() {
         initComponents();
         try {
 //            clientSocket = new Socket("kresnayangasli.my.id", 47780);
             clientSocket = new Socket("localhost", 6002);
+            this.in = new BufferedReader(new InputStreamReader(this.clientSocket.getInputStream()));
+            this.out = new DataOutputStream(this.clientSocket.getOutputStream());
         } catch (IOException ex) {
             Logger.getLogger(FormRegister.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -161,7 +164,7 @@ public class FormLogin extends javax.swing.JFrame implements Runnable {
 
     private void linkRegisterMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_linkRegisterMouseClicked
         this.setVisible(false);
-        new FormRegister().setVisible(true);
+        new FormRegister(this).setVisible(true);
     }//GEN-LAST:event_linkRegisterMouseClicked
 
     private void linkRegisterMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_linkRegisterMouseEntered
@@ -178,15 +181,20 @@ public class FormLogin extends javax.swing.JFrame implements Runnable {
         username = textfield_LoginUsername.getText();
         password = new String(textfield_LoginPassword.getPassword());
         try {
-            DataOutputStream sendToServer = new DataOutputStream(clientSocket.getOutputStream());
-            sendToServer.writeBytes("LOGIN~" + username + "~" + password + "\n");
+            out.writeBytes("LOGIN~" + username + "~" + password + "\n");
+            String message = in.readLine();
+            if (message.equals("SUCCESS")){
+                this.setVisible(false);
+                new FormReserve().setVisible(true);
+            }
+            JOptionPane.showMessageDialog(this, message);
         } catch (IOException ex) {
             Logger.getLogger(FormRegister.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
     /**
-     * @param args the command line arguments
+     * @param args the command line arguments 
      */
     public static void main(String args[]) {
         /* Create and display the form */
@@ -211,30 +219,35 @@ public class FormLogin extends javax.swing.JFrame implements Runnable {
 
     @Override
     public void run() {
-        try {
-            while (true) {
-                getMessage();
-            }
-        } catch (Exception e) {
-            System.out.println("Error di Login > \"Run\" methods : " + e);
-        }
+//        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
-    public void getMessage() {
-        try {
-            String chatServer = "";
-            BufferedReader chatFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-            chatServer = chatFromServer.readLine();
-            if (chatServer.equals("SUCCESS")) {
-                JOptionPane.showMessageDialog(this, "Login success.");
-                FormReserve parkReservation = new FormReserve();
-                parkReservation.setVisible(true);
-                this.setVisible(false);
-            } else {
-                JOptionPane.showMessageDialog(this, "Register failed. Please try again.");
-            }
-        } catch (IOException ex) {
-            System.out.println("Error di Register > \"GetMessage\" methods : " + ex);
-        }
-    }
+//    @Override
+//    public void run() {
+//        try {
+//            while (true) {
+//                getMessage();
+//            }
+//        } catch (Exception e) {
+//            System.out.println("Error di Login > \"Run\" methods : " + e);
+//        }
+//    }
+
+//    public void getMessage() {
+//        try {
+//            String chatServer = "";
+//            BufferedReader chatFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+//            chatServer = chatFromServer.readLine();
+//            if (chatServer.equals("SUCCESS")) {
+//                JOptionPane.showMessageDialog(this, "Login success.");
+//                FormReserve parkReservation = new FormReserve();
+//                parkReservation.setVisible(true);
+//                this.setVisible(false);
+//            } else {
+//                JOptionPane.showMessageDialog(this, "Register failed. Please try again.");
+//            }
+//        } catch (IOException ex) {
+//            System.out.println("Error di Register > \"GetMessage\" methods : " + ex);
+//        }
+//    }
 }

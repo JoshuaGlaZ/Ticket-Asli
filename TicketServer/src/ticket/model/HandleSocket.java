@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package server;
+package ticket.model;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -11,13 +11,13 @@ import java.io.InputStreamReader;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import ticket.server.Server;
 
 /**
  *
  * @author TC4B
  */
 public class HandleSocket extends Thread{
-
     Server parent;
     Socket client;
     DataOutputStream out;
@@ -34,10 +34,6 @@ public class HandleSocket extends Thread{
         }
     }
 
-    HandleSocket(Socket incoming) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
     public void sendMessage(String msg) {
         try {
             out.writeBytes(msg + "\n");
@@ -50,7 +46,14 @@ public class HandleSocket extends Thread{
     {
         try {
             String message = in.readLine();
-            out.writeBytes(parent.giveRespond(message) + "\n");
+            System.out.println(message);
+            if(message.contains("REGISTER~")){
+                //Register
+                parent.registerAccount(this, message);
+            } else {
+                //Login
+                parent.loginAccount(this, message);
+            }
         } catch (IOException ex) {
             Logger.getLogger(HandleSocket.class.getName()).log(Level.SEVERE, null, ex);
         }
