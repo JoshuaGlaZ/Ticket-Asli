@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.net.Socket;
 import javax.swing.JOptionPane;
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -16,28 +18,36 @@ import java.util.logging.Logger;
  * @author chris
  */
 public class FormReserve extends javax.swing.JFrame implements Runnable {
-    Socket clientSocket;
-    Thread t;
+//    Socket clientSocket;
+//    Thread t;
+    List<String> listVenue;
     String venueName;
     String location;
     Date checkIn;
     String type;
     int price;
+    FormLogin parent;
     
     /**
      * Creates new form ParkingReservation
      */
-    public FormReserve() {
+    public FormReserve(FormLogin parentLogin) {
         initComponents();
-        try {
-            clientSocket = new Socket("127.0.0.1", 6002);
-        } catch (IOException ex) {
-            Logger.getLogger(FormReserve.class.getName()).log(Level.SEVERE, null, ex);
+        this.parent=parentLogin;
+        textfield_UserID.setText(parentLogin.idAccount);
+        listVenue = isiComboVenue();
+        for (String venue_name : listVenue){
+            combobox_VenueName.addItem(venue_name);
         }
-        if (t == null) {
-            t = new Thread(this, "Reserve New Parking Lot");
-            t.start();
-        }
+//        try {
+//            clientSocket = new Socket("127.0.0.1", 6002);
+//        } catch (IOException ex) {
+//            Logger.getLogger(FormReserve.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        if (t == null) {
+//            t = new Thread(this, "Reserve New Parking Lot");
+//            t.start();
+//        }
         this.setLocationRelativeTo(null);
     }
 
@@ -104,6 +114,7 @@ public class FormReserve extends javax.swing.JFrame implements Runnable {
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
+        list_UnoccupiedLots.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane1.setViewportView(list_UnoccupiedLots);
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
@@ -114,6 +125,12 @@ public class FormReserve extends javax.swing.JFrame implements Runnable {
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jLabel8.setText("Price :");
+
+        combobox_VenueName.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                combobox_VenueNameItemStateChanged(evt);
+            }
+        });
 
         jLabel10.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jLabel10.setText("Venue :");
@@ -220,39 +237,14 @@ public class FormReserve extends javax.swing.JFrame implements Runnable {
         location = combobox_Location.getSelectedItem().toString();
         checkIn = (Date) datechooser_CheckIn.getDate();
         type = combobox_TicketType.getSelectedItem().toString();
+        String lots = list_UnoccupiedLots.getSelectedValue();
         price = Integer.parseInt(textfield_Price.toString());
-        
     }//GEN-LAST:event_button_SubmitActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FormReserve.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+    private void combobox_VenueNameItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_combobox_VenueNameItemStateChanged
+        // TODO add your handling code here:
         
-        //</editor-fold>
-        
-        
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> {
-            new FormReserve().setVisible(true);
-        });
-    }
+    }//GEN-LAST:event_combobox_VenueNameItemStateChanged
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton button_Submit;
@@ -279,5 +271,11 @@ public class FormReserve extends javax.swing.JFrame implements Runnable {
     @Override
     public void run() {
         
+    }
+
+    private static java.util.List<java.lang.String> isiComboVenue() {
+        parking.TicketWebService_Service service = new parking.TicketWebService_Service();
+        parking.TicketWebService port = service.getTicketWebServicePort();
+        return port.isiComboVenue();
     }
 }

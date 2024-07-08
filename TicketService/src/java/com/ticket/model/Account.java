@@ -15,7 +15,6 @@ import java.util.ArrayList;
  * @author LENOVO
  */
 public class Account extends MyModel {
-
     private int id;
     private String username;
     private String password;
@@ -30,12 +29,11 @@ public class Account extends MyModel {
         this.created_at = null;
     }
 
-    public Account(int id, String username, String password, String email, Timestamp created_at) {
+    public Account(int id, String username, String password, String email) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.email = email;
-        this.created_at = created_at;
     }    
 
     public Account(String username, String password, String email) {
@@ -94,28 +92,36 @@ public class Account extends MyModel {
         this.created_at = created_at;
     }
        
-    public boolean checkUser() {
+    public ArrayList<Object> checkUser() {
+        ArrayList<Object> collections = new ArrayList<Object>();
         try {
-            this.statement = (Statement) MyModel.conn.createStatement();
-            String query = "SELECT * FROM users WHERE username = ? and password = ?;";
-            PreparedStatement preparedStatement = MyModel.conn.prepareStatement(query);
-            preparedStatement.setString(1, this.username);
-            preparedStatement.setString(2, this.password);
-            this.result = preparedStatement.executeQuery();
-            if (this.result.next()) {
-                return true;
+            if(!MyModel.conn.isClosed()){
+                PreparedStatement sql = (PreparedStatement)MyModel.conn.prepareStatement(
+                        "select * from users where username = ? and password = md5(?) limit 1");
+                sql.setString(1, this.username);
+                sql.setString(2, this.password);
+                
+                this.result= sql.executeQuery();
+            }
+            while(this.result.next()){
+                Account tempAccount = new Account(this.result.getInt("id"),
+                    this.result.getString("username"),
+                    this.result.getString("password"),
+                    this.result.getString("email"));
+                collections.add(tempAccount);
             }
         } catch (SQLException e) {
             System.out.println("Error in checkUser account: " + e);
         }
-        return false;
+        return collections;
     }
+
     @Override
-    public void insertData() {
+    public String insertData() {
         try {
             if (!MyModel.conn.isClosed()) {
                 try (PreparedStatement sql = (PreparedStatement) MyModel.conn.prepareStatement(
-                        "INSERT INTO users(username, password, email) VALUES (?, ?, ?)")) {
+                        "INSERT INTO users(username, password, email) VALUES (?, md5(?), ?)")) {
                     sql.setString(1, this.username);
                     sql.setString(2, this.password);
                     sql.setString(3, this.email);
@@ -123,40 +129,40 @@ public class Account extends MyModel {
                 }
             }
         } catch (SQLException e) {
-            System.out.println("Error in insertData account: " + e);
+            return("Error in insertData account: " + e);
         }
-    }
-
-    @Override
-    public void updateData() {
-        
-    }
-
-    @Override
-    public void deleteData() {
+        return "SUCCESS";
     }
 
     @Override
     public ArrayList<Object> viewListData() {
-        ArrayList<Object> collections = new ArrayList<>();
+        ArrayList<Object> collections = new ArrayList<Object>();
         try {
-            this.statement = (Statement) MyModel.conn.createStatement();
-            this.result = this.statement.executeQuery("SELECT * FROM users;");
-            while (this.result.next()) {
-                Account a = new Account(
-                        this.result.getInt("id"),
-                        this.result.getString("username"),
-                        this.result.getString("password"),
-                        this.result.getString("email"),
-                        this.result.getTimestamp("created_at")
-                );
-                collections.add(a);
+            if(!MyModel.conn.isClosed()){
+                PreparedStatement sql = (PreparedStatement)MyModel.conn.prepareStatement(
+                        "select * from users");
+                this.result= sql.executeQuery();
             }
-            result.close();
-            statement.close();
-        } catch (SQLException e) {
-            System.out.println("Error in viewListData: " + e);
+            while(this.result.next()){
+                Account tempAccount = new Account(this.result.getInt("id"),
+                    this.result.getString("username"),
+                    this.result.getString("password"),
+                    this.result.getString("email"));
+                collections.add(tempAccount);
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
         return collections;
     }    
+
+    @Override
+    public void updateData() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void deleteData() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }

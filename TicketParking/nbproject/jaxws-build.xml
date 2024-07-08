@@ -19,7 +19,7 @@
     <target name="wsimport-client-TicketWebService" depends="wsimport-init">
         <mkdir dir="${build.generated.dir}/jax-wsCache/TicketWebService"/>
         <property name="wsdl-TicketWebService" location="xml-resources/web-service-references/TicketWebService/wsdl/localhost_8080/TicketService/TicketWebService.wsdl"/>
-        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/TicketWebService" destdir="${build.generated.dir}/jax-wsCache/TicketWebService" wsdl="${wsdl-TicketWebService}" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="http://localhost:8080/TicketService/TicketWebService?wsdl" xnocompile="true" xendorsed="true">
+        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/TicketWebService" destdir="${build.generated.dir}/jax-wsCache/TicketWebService" wsdl="${wsdl-TicketWebService}" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="http://localhost:8080/TicketService/TicketWebService?wsdl" xnocompile="true" xendorsed="true" package="parking">
             <depends file="${wsdl-TicketWebService}"/>
             <produces dir="${build.generated.dir}/jax-wsCache/TicketWebService"/>
         </wsimport>
@@ -31,7 +31,7 @@
     </target>
     <target name="wsimport-client-clean-TicketWebService" depends="-init-project">
         <delete dir="${build.generated.dir}/jax-wsCache/TicketWebService"/>
-        <delete dir="${build.generated.sources.dir}/jax-ws/com/ticket/services"/>
+        <delete dir="${build.generated.sources.dir}/jax-ws/parking"/>
     </target>
     <target name="wsimport-client-generate" depends="wsimport-client-TicketWebService"/>
 </project>

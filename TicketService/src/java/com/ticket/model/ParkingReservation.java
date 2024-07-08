@@ -45,25 +45,26 @@ public class ParkingReservation extends MyModel {
     }
 
     @Override
-    public void insertData() {
-        try {
-            if (!MyModel.conn.isClosed()) {
-                PreparedStatement sql = MyModel.conn.prepareStatement(
-                        "INSERT INTO parkingreservations(parking_lot_id, user_id, start_date, end_date, lot_number, harga, jenis_tiket) VALUES (?, ?, ?, ?, ?, ?)"
-                );
-                sql.setInt(1, this.parking_lot_id);
-                sql.setInt(2, this.user_id);
-                sql.setDate(3, this.start_date);
-                sql.setDate(4, this.end_date);
-                sql.setInt(5, this.lot_number);
-                sql.setInt(6, this.harga);
-                sql.setString(7, this.jenis_tiket);
-                sql.executeUpdate();
-                sql.close();
-            }
-        } catch (SQLException e) {
-            System.out.println("Error in insertData: " + e);
-        }
+    public String insertData() {
+//        try {
+//            if (!MyModel.conn.isClosed()) {
+//                PreparedStatement sql = MyModel.conn.prepareStatement(
+//                        "INSERT INTO parkingreservations(parking_lot_id, user_id, start_date, end_date, lot_number, harga, jenis_tiket) VALUES (?, ?, ?, ?, ?, ?)"
+//                );
+//                sql.setInt(1, this.parking_lot_id);
+//                sql.setInt(2, this.user_id);
+//                sql.setDate(3, this.start_date);
+//                sql.setDate(4, this.end_date);
+//                sql.setInt(5, this.lot_number);
+//                sql.setInt(6, this.harga);
+//                sql.setString(7, this.jenis_tiket);
+//                sql.executeUpdate();
+//                sql.close();
+//            }
+//        } catch (SQLException e) {
+//            System.out.println("Error in insertData: " + e);
+//        }
+        return null;
     }
 
     @Override

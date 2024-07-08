@@ -30,16 +30,16 @@ public abstract class MyModel {
         if (MyModel.conn == null) {
             try {
                 Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
-                return DriverManager.getConnection("jdbc:mysql://kresnayangasli.my.id:47780/tiket_asli", "dp_uas", "dp*1234567890");
-//                return DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/ticket-asli", "root", "root");
+//                return DriverManager.getConnection("jdbc:mysql://kresnayangasli.my.id:47780/tiket_asli", "dp_uas", "dp*1234567890");
+                return DriverManager.getConnection("jdbc:mysql://localhost/ticket-asli?autoReconnect=true&useSSL=false", "root", "foxrama123");
             } catch (Exception e) {
-                System.out.println("Error di getConnection: " + e);
+                System.out.println("Error di getConnection: " + e.getMessage());
             }
         }
         return MyModel.conn;
     }
 
-    public abstract void insertData();
+    public abstract String insertData();
 
     public abstract void updateData();
 

@@ -27,9 +27,9 @@ public class FormRegister extends javax.swing.JFrame implements Runnable {
     String confirmPass = "";
     FormLogin parent;
 
-    public FormRegister(FormLogin parent) {
+    public FormRegister(FormLogin parentLogin) {
         initComponents();
-        this.parent = parent;
+        this.parent = parentLogin;
 //        try {
 //            clientSocket = new Socket("127.0.0.1", 6002);
 //        } catch (IOException ex) {

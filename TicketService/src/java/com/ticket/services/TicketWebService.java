@@ -5,6 +5,7 @@
 package com.ticket.services;
 
 import com.ticket.model.Account;
+import com.ticket.model.ParkingLots;
 import com.ticket.model.ParkingReservation;
 import java.sql.Date;
 import java.util.ArrayList;
@@ -12,14 +13,18 @@ import javax.jws.Oneway;
 import javax.jws.WebService;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlSeeAlso;
 
+@XmlRootElement
+@XmlSeeAlso({ParkingLots.class, ParkingReservation.class})
 /**
  *
  * @author LENOVO
  */
 @WebService(serviceName = "TicketWebService")
 public class TicketWebService {
-    
+    ParkingLots temParkingLots = new ParkingLots();
     Account a;
     ParkingReservation pr;
     /**
@@ -28,15 +33,6 @@ public class TicketWebService {
     @WebMethod(operationName = "hello")
     public String hello(@WebParam(name = "name") String txt) {
         return "Hello " + txt + " !";
-    }
-
-    /**
-     * Web service operation
-     */
-    @WebMethod(operationName = "checkUser")
-    public Boolean checkUser(@WebParam(name = "username") String username, @WebParam(name = "password") String password) {
-        a = new Account(username, password);
-        return a.checkUser();
     }
 
     /**
@@ -51,19 +47,20 @@ public class TicketWebService {
     /**
      * Web service operation
      */
-    @WebMethod(operationName = "insertUser")
-    @Oneway
-    public void insertUser(@WebParam(name = "username") String username, @WebParam(name = "password") String password, @WebParam(name = "email") String email) {
-        a = new Account(username, password, email);
-        a.insertData();
-    }
-
-    /**
-     * Web service operation
-     */
     @WebMethod(operationName = "reserveNewLot")
     public void reserveNewLot(@WebParam(name = "parking_lot_id") int parking_lot_id, @WebParam(name = "user_id") int user_id, @WebParam(name = "start_date") Date start_date, @WebParam(name = "end_date") Date end_date, @WebParam(name = "lot_number") int lot_number, @WebParam(name = "harga") int harga, @WebParam(name = "jenis_tiket") String jenis_tiket) {
         pr = new ParkingReservation(parking_lot_id, user_id, start_date, end_date, lot_number, harga, jenis_tiket);
         pr.insertData();
+    }
+
+    /**
+     * Web service operation
+     * @return 
+     */
+    @WebMethod(operationName = "isiComboVenue")
+    public ArrayList<String> isiComboVenue() {
+        //TODO write your implementation code here:
+        ArrayList<String> listTemParkingLots = temParkingLots.viewListDataString();
+        return listTemParkingLots;
     }
 }

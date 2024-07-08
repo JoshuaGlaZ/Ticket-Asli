@@ -25,6 +25,7 @@ public class FormLogin extends javax.swing.JFrame implements Runnable {
     String password;
     DataOutputStream out;
     BufferedReader in;
+    String idAccount;
 
     public FormLogin() {
         initComponents();
@@ -184,8 +185,9 @@ public class FormLogin extends javax.swing.JFrame implements Runnable {
             out.writeBytes("LOGIN~" + username + "~" + password + "\n");
             String message = in.readLine();
             if (message.equals("SUCCESS")){
+                this.idAccount = in.readLine();
                 this.setVisible(false);
-                new FormReserve().setVisible(true);
+                new FormReserve(this).setVisible(true);
             }
             JOptionPane.showMessageDialog(this, message);
         } catch (IOException ex) {
@@ -219,7 +221,7 @@ public class FormLogin extends javax.swing.JFrame implements Runnable {
 
     @Override
     public void run() {
-//        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+
     }
 
 //    @Override

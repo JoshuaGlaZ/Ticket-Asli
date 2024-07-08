@@ -83,8 +83,10 @@ public class Server implements Runnable{
         
         String result;
         account = new Account(username, password);
-        if(!account.checkUser().isEmpty()){
+        ArrayList<Object> listAccount = account.checkUser();
+        if(!listAccount.isEmpty()){
             result = "SUCCESS";
+            account = (Account)listAccount.get(0);
         } else {
             result = "Tidak ada akun dengan username dan password yang terdaftar";
         }
@@ -92,20 +94,10 @@ public class Server implements Runnable{
         for (HandleSocket hs : clients){
             if(hs==_hsclient){
                 hs.sendMessage(result);
+                if(result.equals("SUCCESS")){
+                    hs.sendMessage(String.valueOf(account.getId()));
+                }
             }
         }
     }
-    
-
-//    private static Boolean checkUser(java.lang.String username, java.lang.String password) {
-//        server.TicketWebService_Service service = new server.TicketWebService_Service();
-//        server.TicketWebService port = service.getTicketWebServicePort();
-//        return port.checkUser(username, password);
-//    }
-//
-//    private static void insertUser(java.lang.String username, java.lang.String password, java.lang.String email) {
-//        server.TicketWebService_Service service = new server.TicketWebService_Service();
-//        server.TicketWebService port = service.getTicketWebServicePort();
-//        port.insertUser(username, password, email);
-//    }
 }

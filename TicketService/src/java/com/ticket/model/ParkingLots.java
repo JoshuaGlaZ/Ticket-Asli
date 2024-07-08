@@ -35,63 +35,62 @@ public class ParkingLots extends MyModel {
         this.created_at = _created_at;
     }
 
+    public ParkingLots(int id, String venue_name, String location, int available_lots) {
+        this.id = id;
+        this.venue_name = venue_name;
+        this.location = location;
+        this.available_lots = available_lots;
+    }
+
     @Override
-    public void insertData() {
-//        try (PreparedStatement sql = MyModel.conn.prepareStatement("INSERT INTO myvehicle(number_plate, brand, vehicle_class, color) VALUES(?, ?, ?, ?)")) {
-//            sql.setString(1, this.number_plate);
-//            sql.setString(2, this.brand);
-//            sql.setInt(3, this.vehicle_class);
-//            sql.setString(4, this.color);
-//            sql.executeUpdate();
-//        } catch (SQLException e) {
-//            System.out.println("Error in insertData: " + e.getMessage());
-//        }
+    public String insertData() {
+        return null;
     }
 
     @Override
     public void updateData() {
-//        try (PreparedStatement sql = MyModel.conn.prepareStatement("UPDATE myvehicle SET number_plate = ?, brand = ?, vehicle_class = ?, color = ?, updated_at = ? WHERE id = ?")) {
-//            sql.setString(1, this.number_plate);
-//            sql.setString(2, this.brand);
-//            sql.setInt(3, this.vehicle_class);
-//            sql.setString(4, this.color);
-//            sql.setTimestamp(5, this.updated_at);
-//            sql.setInt(6, this.id);
-//            sql.executeUpdate();
-//        } catch (SQLException e) {
-//            System.out.println("Error in updateData: " + e.getMessage());
-//        }
     }
 
     @Override
     public void deleteData() {
-//        try (PreparedStatement sql = MyModel.conn.prepareStatement("DELETE FROM myvehicle WHERE id = ?")) {
-//            sql.setInt(1, this.id);
-//            sql.executeUpdate();
-//        } catch (SQLException e) {
-//            System.out.println("Error in deleteData: " + e.getMessage());
-//        }
     }
 
     @Override
     public ArrayList<Object> viewListData() {
-        ArrayList<Object> collections = new ArrayList<>();
-//        try (Statement statement = MyModel.conn.createStatement(); ResultSet result = statement.executeQuery("SELECT * FROM myvehicle")) {
-//            while (result.next()) {
-//                ParkingLots vec = new ParkingLots(
-//                        result.getInt("id"),
-//                        result.getString("number_plate"),
-//                        result.getString("brand"),
-//                        result.getInt("vehicle_class"),
-//                        result.getString("color"),
-//                        result.getTimestamp("created_at"),
-//                        result.getTimestamp("updated_at")
-//                );
-//                collections.add(vec);
-//            }
-//        } catch (SQLException e) {
-//            System.out.println("Error in viewListData: " + e.getMessage());
-//        }
+        ArrayList<Object> collections = new ArrayList<Object>();
+        try {
+            if(!MyModel.conn.isClosed()){
+                PreparedStatement sql = (PreparedStatement)MyModel.conn.prepareStatement(
+                        "select * from parkinglots");
+                this.result= sql.executeQuery();
+            }
+            while(this.result.next()){
+                ParkingLots temParkingLots = new ParkingLots(this.result.getInt("id"),
+                    this.result.getString("venue_name"),
+                    this.result.getString("location"),
+                    this.result.getInt("available_lots"));
+                collections.add(temParkingLots);
+            }
+        } catch (SQLException e) {
+            System.out.println("Error in viewListData: " + e.getMessage());
+        }
+        return collections;
+    }
+    
+    public ArrayList<String> viewListDataString() {
+        ArrayList<String> collections = new ArrayList<String>();
+        try {
+            if(!MyModel.conn.isClosed()){
+                PreparedStatement sql = (PreparedStatement)MyModel.conn.prepareStatement(
+                        "select * from parkinglots");
+                this.result= sql.executeQuery();
+            }
+            while(this.result.next()){
+                collections.add(this.result.getString("venue_name"));
+            }
+        } catch (SQLException e) {
+            System.out.println("Error in viewListDataString: " + e.getMessage());
+        }
         return collections;
     }
 }
