@@ -6,7 +6,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Map;
 
 /**
  * ParkingLots model class
@@ -77,52 +79,86 @@ public class ParkingLots extends MyModel {
         return collections;
     }
     
-    public ArrayList<String> viewListDataString() {
+    public ArrayList<String> viewListDataVenueName() {
         ArrayList<String> collections = new ArrayList<String>();
         try {
             if(!MyModel.conn.isClosed()){
                 PreparedStatement sql = (PreparedStatement)MyModel.conn.prepareStatement(
-                        "select * from parkinglots");
+                        "select * from parkinglots group by venue_name");
                 this.result= sql.executeQuery();
             }
             while(this.result.next()){
                 collections.add(this.result.getString("venue_name"));
             }
         } catch (SQLException e) {
-            System.out.println("Error in viewListDataString: " + e.getMessage());
+            System.out.println("Error in viewListDataVenueName: " + e.getMessage());
         }
         return collections;
     }
     
-    public ArrayList<String> checkAvaibleLots(String venue_name) {
+    public ArrayList<String> viewListDataLocation(String venue_name) {
+        ArrayList<String> collections = new ArrayList<String>();
+        try {
+            if(!MyModel.conn.isClosed()){
+                PreparedStatement sql = (PreparedStatement)MyModel.conn.prepareStatement(
+                        "select * from parkinglots where venue_name = ?");
+                sql.setString(1, venue_name);
+                this.result= sql.executeQuery();
+            }
+            while(this.result.next()){
+                collections.add(this.result.getString("location"));
+            }
+        } catch (SQLException e) {
+            System.out.println("Error in viewListDataLocation: " + e.getMessage());
+        }
+        return collections;
+    }
+    
+    public String viewDataDate(String venue_name, String location) {
+        String dateRange = "";
+        try {
+            if(!MyModel.conn.isClosed()){
+                PreparedStatement sql = (PreparedStatement)MyModel.conn.prepareStatement(
+                        "select * from parkinglots where venue_name = ? and location = ?");
+                sql.setString(1, venue_name);
+                sql.setString(2, location);
+                this.result= sql.executeQuery();
+            }
+            while(this.result.next()){
+                dateRange = this.result.getString("start_date")+"~"+this.result.getString("end_date");
+            }
+        } catch (SQLException e) {
+            System.out.println("Error in viewListDataString: " + e.getMessage());
+        }
+        return dateRange;
+    }
+    
+    public ArrayList<String> checkAvaibleLots(String venue_name, String location, LocalDate reserve_date) {
         ArrayList<String> collections = new ArrayList<String>();
         ArrayList<Integer> listOccupiedLots = new ArrayList<Integer>();
         ParkingReservation preserve = new ParkingReservation();
         try {
             if(!MyModel.conn.isClosed()){
                 PreparedStatement sql = (PreparedStatement)MyModel.conn.prepareStatement(
-                        "select * from parkinglots where venue_name=? limit 1");
+                        "select * from parkinglots where venue_name=? and location=? limit 1");
                 sql.setString(1, venue_name);
+                sql.setString(2, location);
                 this.result= sql.executeQuery();
-            }
-            while(this.result.next()){
-                listOccupiedLots = preserve.checkOccupiedLots(this.result.getInt("id"));
-                int available_lots = this.result.getInt("available_lots");
-                for (int i = 1; i < available_lots+1; i++) {
-                    if(listOccupiedLots.size()!=0){
-                        for (int occupiedLots : listOccupiedLots) {
-                            if(occupiedLots!=i){
-                                collections.add(String.valueOf(i));
-                            }
+                while(this.result.next()){
+                    listOccupiedLots = preserve.checkOccupiedLots(venue_name, location, reserve_date);
+                    int available_lots = this.result.getInt("available_lots");                
+                    int id = this.result.getInt("id");
+                    for (int i = 1; i <= available_lots; i++) {
+                        if (!listOccupiedLots.contains(i)) {
+                            collections.add(String.valueOf(i));
                         }
-                    } else {
-                        collections.add(String.valueOf(i));
                     }
                 }
             }
         } catch (SQLException e) {
             System.out.println("Error in checkLots: " + e.getMessage());
         }
+        System.out.println(collections);
         return collections;
     }
 }

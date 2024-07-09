@@ -6,10 +6,16 @@ package parking;
 
 import java.io.IOException;
 import java.net.Socket;
+import java.text.ParseException;
 import javax.swing.JOptionPane;
-import java.sql.Date;
+import java.util.Date;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
@@ -22,8 +28,10 @@ import javax.swing.ListModel;
 public class FormReserve extends javax.swing.JFrame implements Runnable {
 //    Socket clientSocket;
 //    Thread t;
-    List<String> listVenue;
+    List<String> listVenue;    
+    List<String> listLocation;
     List<String> listLots;
+    String dateRange;
     String venueName;
     String location;
     Date checkIn;
@@ -36,12 +44,14 @@ public class FormReserve extends javax.swing.JFrame implements Runnable {
      */
     public FormReserve(FormLogin parentLogin) {
         initComponents();
-        this.parent=parentLogin;
-        textfield_UserID.setText(parentLogin.idAccount);
+        parent=parentLogin;
+        textfield_UserID.setText(parent.idAccount);
         listVenue = isiComboVenue();
         for (String venue_name : listVenue){
             combobox_VenueName.addItem(venue_name);
         }
+        combobox_TicketType.setSelectedIndex(0);
+        textfield_Price.setText("10000");
 //        try {
 //            clientSocket = new Socket("127.0.0.1", 6002);
 //        } catch (IOException ex) {
@@ -111,6 +121,13 @@ public class FormReserve extends javax.swing.JFrame implements Runnable {
         textfield_Price.setEditable(false);
         textfield_Price.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
 
+        combobox_TicketType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Basic", "Premium" }));
+        combobox_TicketType.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                combobox_TicketTypeItemStateChanged(evt);
+            }
+        });
+
         list_UnoccupiedLots.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         list_UnoccupiedLots.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane1.setViewportView(list_UnoccupiedLots);
@@ -120,6 +137,23 @@ public class FormReserve extends javax.swing.JFrame implements Runnable {
         jLabel4.setText("Unoccupied lot(s) :");
 
         datechooser_CheckIn.setDateFormatString("dd MMMM yyyy");
+        datechooser_CheckIn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                datechooser_CheckInMouseClicked(evt);
+            }
+        });
+        datechooser_CheckIn.addInputMethodListener(new java.awt.event.InputMethodListener() {
+            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
+            }
+            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
+                datechooser_CheckInInputMethodTextChanged(evt);
+            }
+        });
+        datechooser_CheckIn.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                datechooser_CheckInPropertyChange(evt);
+            }
+        });
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jLabel8.setText("Price :");
@@ -132,6 +166,12 @@ public class FormReserve extends javax.swing.JFrame implements Runnable {
 
         jLabel10.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jLabel10.setText("Venue :");
+
+        combobox_Location.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                combobox_LocationItemStateChanged(evt);
+            }
+        });
 
         jLabel11.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jLabel11.setText("Location :");
@@ -232,19 +272,72 @@ public class FormReserve extends javax.swing.JFrame implements Runnable {
 
     private void button_SubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_SubmitActionPerformed
         venueName = combobox_VenueName.getSelectedItem().toString();
-        location = combobox_Location.getSelectedItem().toString();
         checkIn = (Date) datechooser_CheckIn.getDate();
         type = combobox_TicketType.getSelectedItem().toString();
-        String lots = list_UnoccupiedLots.getSelectedValue();
+        int lots = Integer.parseInt(list_UnoccupiedLots.getSelectedValue());
         price = Integer.parseInt(textfield_Price.toString());
+//        reserveNewLot(reserve_id, Integer.parseInt(parent.idAccount), checkIn.toString(), lots, price, type);
     }//GEN-LAST:event_button_SubmitActionPerformed
 
     private void combobox_VenueNameItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_combobox_VenueNameItemStateChanged
-        // TODO add your handling code here:
-        listLots = isiListLots(combobox_VenueName.getSelectedItem().toString());
-        String[] arrayLots = listLots.toArray(new String[listLots.size()]);
-        list_UnoccupiedLots.setListData(arrayLots);
+        //TODO add your handling code here:
+        combobox_Location.removeAllItems();
+        venueName = combobox_VenueName.getSelectedItem().toString();
+        listLocation = isiComboLocation(venueName);
+        for (String location: listLocation) {
+            combobox_Location.addItem(location);
+        }
     }//GEN-LAST:event_combobox_VenueNameItemStateChanged
+
+    private void combobox_LocationItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_combobox_LocationItemStateChanged
+        try {
+            // TODO add your handling code here:
+            if (combobox_Location.getSelectedItem() != null) {
+                venueName = combobox_VenueName.getSelectedItem().toString();
+                location = combobox_Location.getSelectedItem().toString();
+                dateRange = isiDateCheckIn(venueName, location);
+
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+                Date startDate = formatter.parse(dateRange.split("~")[0]);
+                Date endDate = formatter.parse(dateRange.split("~")[1]);
+                datechooser_CheckIn.setMinSelectableDate(startDate);
+                datechooser_CheckIn.setMaxSelectableDate(endDate);
+            }
+            
+        } catch (ParseException ex) {
+            Logger.getLogger(FormReserve.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }//GEN-LAST:event_combobox_LocationItemStateChanged
+
+    private void datechooser_CheckInInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_datechooser_CheckInInputMethodTextChanged
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_datechooser_CheckInInputMethodTextChanged
+
+    private void datechooser_CheckInPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_datechooser_CheckInPropertyChange
+        // TODO add your handling code here:
+        if (datechooser_CheckIn.getDate() != null) {
+            listLots = isiListLots(
+                    combobox_VenueName.getSelectedItem().toString(),
+                    combobox_Location.getSelectedItem().toString(),
+                    datechooser_CheckIn.getDate().toString());
+            String[] arrayLots = listLots.toArray(new String[listLots.size()]);
+            list_UnoccupiedLots.setListData(arrayLots);
+        }
+
+    }//GEN-LAST:event_datechooser_CheckInPropertyChange
+
+    private void datechooser_CheckInMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_datechooser_CheckInMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_datechooser_CheckInMouseClicked
+
+    private void combobox_TicketTypeItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_combobox_TicketTypeItemStateChanged
+        // TODO add your handling code here:
+        if (combobox_TicketType.getSelectedItem() != null) {
+            textfield_Price.setText(combobox_TicketType.getSelectedItem().equals("Basic") ? "10000" : "40000");
+        }
+    }//GEN-LAST:event_combobox_TicketTypeItemStateChanged
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton button_Submit;
@@ -279,9 +372,39 @@ public class FormReserve extends javax.swing.JFrame implements Runnable {
         return port.isiComboVenue();
     }
 
-    private static java.util.List<java.lang.String> isiListLots(java.lang.String venueName) {
+    private static java.util.List<java.lang.String> isiComboLocation(java.lang.String venueName) {
         parking.TicketWebService_Service service = new parking.TicketWebService_Service();
         parking.TicketWebService port = service.getTicketWebServicePort();
-        return port.isiListLots(venueName);
+        return port.isiComboLocation(venueName);
+    }
+
+    private static String isiDateCheckIn(java.lang.String venueName, java.lang.String location) {
+        parking.TicketWebService_Service service = new parking.TicketWebService_Service();
+        parking.TicketWebService port = service.getTicketWebServicePort();
+        return port.isiDateCheckIn(venueName, location);
+    }
+
+    private static java.util.List<java.lang.String> isiListLots(java.lang.String venueName, java.lang.String location, java.lang.String reserveDate) {
+        parking.TicketWebService_Service service = new parking.TicketWebService_Service();
+        parking.TicketWebService port = service.getTicketWebServicePort();
+        return port.isiListLots(venueName, location, reserveDate);
+    }
+
+//    private static void reserveNewLot(int parkingLotId, int userId, java.util.Date reservationDate, int lotNumber, int harga, java.lang.String jenisTiket) {
+//        parking.TicketWebService_Service service = new parking.TicketWebService_Service();
+//        parking.TicketWebService port = service.getTicketWebServicePort();
+//        port.reserveNewLot(parkingLotId, userId, reservationDate, lotNumber, harga, jenisTiket);
+//    }
+
+//    private static void reserveNewLot(int parkingLotId, int userId, javax.xml.datatype.XMLGregorianCalendar reservationDate, int lotNumber, int harga, java.lang.String jenisTiket) {
+//        parking.TicketWebService_Service service = new parking.TicketWebService_Service();
+//        parking.TicketWebService port = service.getTicketWebServicePort();
+//        port.reserveNewLot(parkingLotId, userId, reservationDate, lotNumber, harga, jenisTiket);
+//    }
+
+    private static void reserveNewLot(int parkingLotId, int userId, java.lang.String reservationDate, int lotNumber, int harga, java.lang.String jenisTiket) {
+        parking.TicketWebService_Service service = new parking.TicketWebService_Service();
+        parking.TicketWebService port = service.getTicketWebServicePort();
+        port.reserveNewLot(parkingLotId, userId, reservationDate, lotNumber, harga, jenisTiket);
     }
 }

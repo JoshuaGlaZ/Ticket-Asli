@@ -7,7 +7,11 @@ package com.ticket.services;
 import com.ticket.model.ParkingLots;
 import com.ticket.model.ParkingReservation;
 import java.sql.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Locale;
 import javax.jws.Oneway;
 import javax.jws.WebService;
 import javax.jws.WebMethod;
@@ -37,8 +41,8 @@ public class TicketWebService {
      * Web service operation
      */
     @WebMethod(operationName = "reserveNewLot")
-    public void reserveNewLot(@WebParam(name = "parking_lot_id") int parking_lot_id, @WebParam(name = "user_id") int user_id, @WebParam(name = "start_date") Date start_date, @WebParam(name = "end_date") Date end_date, @WebParam(name = "lot_number") int lot_number, @WebParam(name = "harga") int harga, @WebParam(name = "jenis_tiket") String jenis_tiket) {
-        pr = new ParkingReservation(parking_lot_id, user_id, start_date, end_date, lot_number, harga, jenis_tiket);
+    public void reserveNewLot(@WebParam(name = "parking_lot_id") int parking_lot_id, @WebParam(name = "user_id") int user_id, @WebParam(name = "reservation_date") String reservation_date, @WebParam(name = "lot_number") int lot_number, @WebParam(name = "harga") int harga, @WebParam(name = "jenis_tiket") String jenis_tiket) {
+        pr = new ParkingReservation(parking_lot_id, user_id, reservation_date, lot_number, harga, jenis_tiket);
         pr.insertData();
     }
 
@@ -49,17 +53,40 @@ public class TicketWebService {
     @WebMethod(operationName = "isiComboVenue")
     public ArrayList<String> isiComboVenue() {
         //TODO write your implementation code here:
-        ArrayList<String> listTemParkingLots = temParkingLots.viewListDataString();
+        ArrayList<String> listTemParkingLots = temParkingLots.viewListDataVenueName();
         return listTemParkingLots;
     }
 
     /**
      * Web service operation
      */
-    @WebMethod(operationName = "isiListLots")
-    public ArrayList<String> isiListLots(@WebParam(name = "venue_name") String venue_name) {
+    @WebMethod(operationName = "isiComboLocation")
+    public ArrayList<String> isiComboLocation(@WebParam(name = "venue_name") String venue_name) {
         //TODO write your implementation code here:
-        ArrayList<String> listTemParkingLots = temParkingLots.checkAvaibleLots(venue_name);
+        ArrayList<String> listTemParkingLots = temParkingLots.viewListDataLocation(venue_name);
+        return listTemParkingLots;
+    }
+    
+    /**
+     * Web service operation
+     * @return 
+     */
+    @WebMethod(operationName = "isiDateCheckIn")
+    public String isiDateCheckIn(@WebParam(name = "venue_name") String venue_name, @WebParam(name = "location") String location) {
+        //TODO write your implementation code here:
+        String dateRange = temParkingLots.viewDataDate(venue_name, location);
+        return dateRange;
+    }
+
+    /**
+     * Web service operation
+     */
+    @WebMethod(operationName = "isiListLots")
+    public ArrayList<String> isiListLots(@WebParam(name = "venue_name") String venue_name, @WebParam(name = "location") String location, @WebParam(name = "reserve_date") String reserve_date) {
+        //TODO write your implementation code here:
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH);
+        LocalDate dateTime = LocalDate.parse(reserve_date, formatter);
+        ArrayList<String> listTemParkingLots = temParkingLots.checkAvaibleLots(venue_name, location, dateTime);
         return listTemParkingLots;
     }
 
