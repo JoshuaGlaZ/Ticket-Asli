@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultListModel;
+import javax.swing.ListModel;
 
 /**
  *
@@ -21,6 +23,7 @@ public class FormReserve extends javax.swing.JFrame implements Runnable {
 //    Socket clientSocket;
 //    Thread t;
     List<String> listVenue;
+    List<String> listLots;
     String venueName;
     String location;
     Date checkIn;
@@ -109,11 +112,6 @@ public class FormReserve extends javax.swing.JFrame implements Runnable {
         textfield_Price.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
 
         list_UnoccupiedLots.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        list_UnoccupiedLots.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5", "Item 1", "Item 2", "Item 3", "Item 4", "Item 5", "Item 1", "Item 2", "Item 3", "Item 4", "Item 5", "Item 1", "Item 2", "Item 3", "Item 4", "Item 5", "Item 1", "Item 2", "Item 3", "Item 4", "Item 5", "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
         list_UnoccupiedLots.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane1.setViewportView(list_UnoccupiedLots);
 
@@ -243,7 +241,9 @@ public class FormReserve extends javax.swing.JFrame implements Runnable {
 
     private void combobox_VenueNameItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_combobox_VenueNameItemStateChanged
         // TODO add your handling code here:
-        
+        listLots = isiListLots(combobox_VenueName.getSelectedItem().toString());
+        String[] arrayLots = listLots.toArray(new String[listLots.size()]);
+        list_UnoccupiedLots.setListData(arrayLots);
     }//GEN-LAST:event_combobox_VenueNameItemStateChanged
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -277,5 +277,11 @@ public class FormReserve extends javax.swing.JFrame implements Runnable {
         parking.TicketWebService_Service service = new parking.TicketWebService_Service();
         parking.TicketWebService port = service.getTicketWebServicePort();
         return port.isiComboVenue();
+    }
+
+    private static java.util.List<java.lang.String> isiListLots(java.lang.String venueName) {
+        parking.TicketWebService_Service service = new parking.TicketWebService_Service();
+        parking.TicketWebService port = service.getTicketWebServicePort();
+        return port.isiListLots(venueName);
     }
 }

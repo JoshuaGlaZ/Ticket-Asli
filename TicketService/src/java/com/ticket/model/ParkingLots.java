@@ -93,4 +93,36 @@ public class ParkingLots extends MyModel {
         }
         return collections;
     }
+    
+    public ArrayList<String> checkAvaibleLots(String venue_name) {
+        ArrayList<String> collections = new ArrayList<String>();
+        ArrayList<Integer> listOccupiedLots = new ArrayList<Integer>();
+        ParkingReservation preserve = new ParkingReservation();
+        try {
+            if(!MyModel.conn.isClosed()){
+                PreparedStatement sql = (PreparedStatement)MyModel.conn.prepareStatement(
+                        "select * from parkinglots where venue_name=? limit 1");
+                sql.setString(1, venue_name);
+                this.result= sql.executeQuery();
+            }
+            while(this.result.next()){
+                listOccupiedLots = preserve.checkOccupiedLots(this.result.getInt("id"));
+                int available_lots = this.result.getInt("available_lots");
+                for (int i = 1; i < available_lots+1; i++) {
+                    if(listOccupiedLots.size()!=0){
+                        for (int occupiedLots : listOccupiedLots) {
+                            if(occupiedLots!=i){
+                                collections.add(String.valueOf(i));
+                            }
+                        }
+                    } else {
+                        collections.add(String.valueOf(i));
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error in checkLots: " + e.getMessage());
+        }
+        return collections;
+    }
 }

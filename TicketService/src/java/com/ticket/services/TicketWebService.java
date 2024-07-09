@@ -63,4 +63,15 @@ public class TicketWebService {
         ArrayList<String> listTemParkingLots = temParkingLots.viewListDataString();
         return listTemParkingLots;
     }
+
+    /**
+     * Web service operation
+     */
+    @WebMethod(operationName = "isiListLots")
+    public ArrayList<String> isiListLots(@WebParam(name = "venue_name") String venue_name) {
+        //TODO write your implementation code here:
+        ArrayList<String> listTemParkingLots = temParkingLots.checkAvaibleLots(venue_name);
+        return listTemParkingLots;
+    }
+
 }

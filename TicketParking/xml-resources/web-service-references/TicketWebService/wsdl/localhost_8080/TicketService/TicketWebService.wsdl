@@ -28,6 +28,12 @@
 <message name="reserveNewLotResponse">
 <part name="parameters" element="tns:reserveNewLotResponse"/>
 </message>
+<message name="isiListLots">
+<part name="parameters" element="tns:isiListLots"/>
+</message>
+<message name="isiListLotsResponse">
+<part name="parameters" element="tns:isiListLotsResponse"/>
+</message>
 <portType name="TicketWebService">
 <operation name="hello">
 <input wsam:Action="http://services.ticket.com/TicketWebService/helloRequest" message="tns:hello"/>
@@ -44,6 +50,10 @@
 <operation name="reserveNewLot">
 <input wsam:Action="http://services.ticket.com/TicketWebService/reserveNewLotRequest" message="tns:reserveNewLot"/>
 <output wsam:Action="http://services.ticket.com/TicketWebService/reserveNewLotResponse" message="tns:reserveNewLotResponse"/>
+</operation>
+<operation name="isiListLots">
+<input wsam:Action="http://services.ticket.com/TicketWebService/isiListLotsRequest" message="tns:isiListLots"/>
+<output wsam:Action="http://services.ticket.com/TicketWebService/isiListLotsResponse" message="tns:isiListLotsResponse"/>
 </operation>
 </portType>
 <binding name="TicketWebServicePortBinding" type="tns:TicketWebService">
@@ -76,6 +86,15 @@
 </output>
 </operation>
 <operation name="reserveNewLot">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="isiListLots">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>

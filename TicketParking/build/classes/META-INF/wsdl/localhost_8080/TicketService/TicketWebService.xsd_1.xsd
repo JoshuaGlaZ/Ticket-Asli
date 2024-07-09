@@ -8,6 +8,10 @@
 
 <xs:element name="isiComboVenueResponse" type="tns:isiComboVenueResponse"/>
 
+<xs:element name="isiListLots" type="tns:isiListLots"/>
+
+<xs:element name="isiListLotsResponse" type="tns:isiListLotsResponse"/>
+
 <xs:element name="reserveNewLot" type="tns:reserveNewLot"/>
 
 <xs:element name="reserveNewLotResponse" type="tns:reserveNewLotResponse"/>
@@ -43,6 +47,18 @@
 <xs:complexType name="viewListUserResponse">
 <xs:sequence>
 <xs:element name="return" type="xs:anyType" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="isiListLots">
+<xs:sequence>
+<xs:element name="venue_name" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="isiListLotsResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
 </xs:sequence>
 </xs:complexType>
 

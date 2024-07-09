@@ -92,42 +92,61 @@ public class ParkingReservation extends MyModel {
 
     @Override
     public void deleteData() {
-        try {
-            if (!MyModel.conn.isClosed()) {
-                PreparedStatement sql = MyModel.conn.prepareStatement(
-                        "DELETE FROM parkingreservations WHERE id = ?"
-                );
-                sql.setInt(1, this.id);
-                sql.executeUpdate();
-                sql.close();
-            }
-        } catch (SQLException e) {
-            System.out.println("Error in deleteData: " + e);
-        }
+//        try {
+//            if (!MyModel.conn.isClosed()) {
+//                PreparedStatement sql = MyModel.conn.prepareStatement(
+//                        "DELETE FROM parkingreservations WHERE id = ?"
+//                );
+//                sql.setInt(1, this.id);
+//                sql.executeUpdate();
+//                sql.close();
+//            }
+//        } catch (SQLException e) {
+//            System.out.println("Error in deleteData: " + e);
+//        }
     }
 
     @Override
     public ArrayList<Object> viewListData() {
-        ArrayList<Object> collections = new ArrayList<>();
+//        ArrayList<Object> collections = new ArrayList<>();
+//        try {
+//            this.statement = (Statement) MyModel.conn.createStatement();
+//            this.result = this.statement.executeQuery("SELECT * FROM parkingreservations;");
+//            while (this.result.next()) {
+//                ParkingReservation pr = new ParkingReservation(
+//                        result.getInt("parking_lot_id"),
+//                        result.getInt("user_id"),
+//                        result.getDate("start_date"),
+//                        result.getDate("end_date"),
+//                        result.getInt("lot_number"),
+//                        result.getInt("harga"),
+//                        result.getString("jenis_tiket")
+//                );
+//                collections.add(pr);
+//            }
+//            result.close();
+//            statement.close();
+//        } catch (SQLException e) {
+//            System.out.println("Error in viewListData: " + e);
+//        }
+//        return collections;
+        return null;
+    }
+    
+    public ArrayList<Integer> checkOccupiedLots(int parking_lots_id) {
+        ArrayList<Integer> collections = new ArrayList<Integer>();
         try {
-            this.statement = (Statement) MyModel.conn.createStatement();
-            this.result = this.statement.executeQuery("SELECT * FROM parkingreservations;");
-            while (this.result.next()) {
-                ParkingReservation pr = new ParkingReservation(
-                        result.getInt("parking_lot_id"),
-                        result.getInt("user_id"),
-                        result.getDate("start_date"),
-                        result.getDate("end_date"),
-                        result.getInt("lot_number"),
-                        result.getInt("harga"),
-                        result.getString("jenis_tiket")
-                );
-                collections.add(pr);
+            if(!MyModel.conn.isClosed()){
+                PreparedStatement sql = (PreparedStatement)MyModel.conn.prepareStatement(
+                        "select * from parkingreservations where parking_lot_id=? limit 1");
+                sql.setInt(1, parking_lots_id);
+                this.result= sql.executeQuery();
             }
-            result.close();
-            statement.close();
+            while(this.result.next()){
+                collections.add(this.result.getInt("lot_number"));
+            }
         } catch (SQLException e) {
-            System.out.println("Error in viewListData: " + e);
+            System.out.println("Error in checkOccupiedLots: " + e.getMessage());
         }
         return collections;
     }
