@@ -4,7 +4,6 @@
  */
 package com.ticket.services;
 
-import com.ticket.model.Account;
 import com.ticket.model.ParkingLots;
 import com.ticket.model.ParkingReservation;
 import java.sql.Date;
@@ -25,7 +24,6 @@ import javax.xml.bind.annotation.XmlSeeAlso;
 @WebService(serviceName = "TicketWebService")
 public class TicketWebService {
     ParkingLots temParkingLots = new ParkingLots();
-    Account a;
     ParkingReservation pr;
     /**
      * This is a sample web service operation
@@ -33,15 +31,6 @@ public class TicketWebService {
     @WebMethod(operationName = "hello")
     public String hello(@WebParam(name = "name") String txt) {
         return "Hello " + txt + " !";
-    }
-
-    /**
-     * Web service operation
-     */
-    @WebMethod(operationName = "viewListUser")
-    public ArrayList<Object> viewListUser() {
-        a = new Account();
-        return a.viewListData();
     }
 
     /**
