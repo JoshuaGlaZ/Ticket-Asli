@@ -5,18 +5,44 @@
 package acara;
 
 import java.awt.Color;
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author LENOVO
  */
-public class FormLogin extends javax.swing.JFrame {
+public class FormLogin extends javax.swing.JFrame implements Runnable {
 
-    /**
-     * Creates new form FormLogin
-     */
+    Socket clientSocket;
+    Thread t;
+    String username;
+    String password;
+    DataOutputStream out;
+    BufferedReader in;
+    String idAccount;
+    
+    
     public FormLogin() {
         initComponents();
+        try {
+//          clientSocket = new Socket("kresnayangasli.my.id", 47780);
+            clientSocket = new Socket("localhost", 6002);
+            this.in = new BufferedReader(new InputStreamReader(this.clientSocket.getInputStream()));
+            this.out = new DataOutputStream(this.clientSocket.getOutputStream());
+        } catch (IOException ex) {
+            Logger.getLogger(FormRegister.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if (t == null) {
+            t = new Thread(this, "Account Registration");
+            t.start();
+        }
         this.setLocationRelativeTo(null);
     }
 
@@ -176,6 +202,20 @@ public class FormLogin extends javax.swing.JFrame {
 
     private void button_LoginActionPerformed(java.awt.event.ActionEvent evt) {
         // Checking to user Database
+        username = textfield_LoginUsername.getText();
+        password = new String(textfield_LoginPassword.getPassword());
+        try {
+            out.writeBytes("LOGIN~" + username + "~" + password + "\n");
+            String message = in.readLine();
+            if (message.equals("SUCCESS")){
+                this.idAccount = in.readLine();
+                this.setVisible(false);
+                new FormAcara(this).setVisible(true);
+            }
+            JOptionPane.showMessageDialog(this, message);
+        } catch (IOException ex) {
+            Logger.getLogger(FormRegister.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     private void button_ToRegisterFormActionPerformed(java.awt.event.ActionEvent evt) {
@@ -205,4 +245,9 @@ public class FormLogin extends javax.swing.JFrame {
     private javax.swing.JPasswordField textfield_LoginPassword;
     private javax.swing.JTextField textfield_LoginUsername;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void run() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }
