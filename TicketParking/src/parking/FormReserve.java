@@ -287,6 +287,9 @@ public class FormReserve extends javax.swing.JFrame implements Runnable {
                 long currentMillis = currentDate.getTime();
                 if(startDate.before(currentDate)){
                     startDate.setTime(currentMillis+86400000);
+                    if(endDate.before(startDate)){
+                        endDate.setTime(currentMillis-86400000);
+                    }
                 }
                 datechooser_CheckIn.setMinSelectableDate(startDate);
                 datechooser_CheckIn.setMaxSelectableDate(endDate);
