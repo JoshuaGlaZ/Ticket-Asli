@@ -6,11 +6,7 @@ package parking;
 
 import java.awt.Color;
 import javax.swing.JOptionPane;
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -19,8 +15,6 @@ import java.util.logging.Logger;
  * @author LENOVO
  */
 public class FormRegister extends javax.swing.JFrame implements Runnable {
-//    Socket clientSocket;
-//    Thread t;
     String email = "";
     String username = "";
     String password = "";
@@ -30,15 +24,6 @@ public class FormRegister extends javax.swing.JFrame implements Runnable {
     public FormRegister(FormLogin parentLogin) {
         initComponents();
         this.parent = parentLogin;
-//        try {
-//            clientSocket = new Socket("127.0.0.1", 6002);
-//        } catch (IOException ex) {
-//            Logger.getLogger(FormRegister.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        if (t == null) {
-//            t = new Thread(this, "Account Registration");
-//            t.start();
-//        }
         this.setLocationRelativeTo(null);
     }
 
@@ -277,30 +262,6 @@ public class FormRegister extends javax.swing.JFrame implements Runnable {
 
     @Override
     public void run() {
-//        try {
-//            while (true) {
-//                getMessage();
-//            }
-//        } catch (Exception e) {
-//            System.out.println("Error di Register > \"Run\" methods : " + e);
-//        }
-    }
 
-//    public void getMessage() {
-//        try {
-//            String chatServer = "";
-//            BufferedReader chatFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-//            chatServer = chatFromServer.readLine();
-//            if (chatServer.equals("SUCCESS")) {
-//                JOptionPane.showMessageDialog(this, "Register success. You can login now.");
-//                FormLogin login = new FormLogin();
-//                login.setVisible(true);
-//                this.setVisible(false);
-//            } else {
-//                JOptionPane.showMessageDialog(this, "Register failed. Please try again.");
-//            }
-//        } catch (IOException ex) {
-//            System.out.println("Error di Register > \"GetMessage\" methods : " + ex);
-//        }
-//    }
+    }
 }

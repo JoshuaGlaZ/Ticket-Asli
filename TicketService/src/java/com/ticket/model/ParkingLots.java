@@ -1,14 +1,10 @@
 package com.ticket.model;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Map;
 
 /**
  * ParkingLots model class
@@ -65,13 +61,15 @@ public class ParkingLots extends MyModel {
                 PreparedStatement sql = (PreparedStatement)MyModel.conn.prepareStatement(
                         "select * from parkinglots");
                 this.result= sql.executeQuery();
-            }
-            while(this.result.next()){
-                ParkingLots temParkingLots = new ParkingLots(this.result.getInt("id"),
-                    this.result.getString("venue_name"),
-                    this.result.getString("location"),
-                    this.result.getInt("available_lots"));
-                collections.add(temParkingLots);
+                
+                while(this.result.next()){
+                    ParkingLots temParkingLots = new ParkingLots(this.result.getInt("id"),
+                        this.result.getString("venue_name"),
+                        this.result.getString("location"),
+                        this.result.getInt("available_lots"));
+                    collections.add(temParkingLots);
+                }
+                sql.close();
             }
         } catch (SQLException e) {
             System.out.println("Error in viewListData: " + e.getMessage());
@@ -86,9 +84,11 @@ public class ParkingLots extends MyModel {
                 PreparedStatement sql = (PreparedStatement)MyModel.conn.prepareStatement(
                         "select * from parkinglots group by venue_name");
                 this.result= sql.executeQuery();
-            }
-            while(this.result.next()){
-                collections.add(this.result.getString("venue_name"));
+                
+                while(this.result.next()){
+                    collections.add(this.result.getString("venue_name"));
+                }
+                sql.close();
             }
         } catch (SQLException e) {
             System.out.println("Error in viewListDataVenueName: " + e.getMessage());
@@ -104,9 +104,11 @@ public class ParkingLots extends MyModel {
                         "select * from parkinglots where venue_name = ?");
                 sql.setString(1, venue_name);
                 this.result= sql.executeQuery();
-            }
-            while(this.result.next()){
-                collections.add(this.result.getString("location"));
+                
+                while(this.result.next()){
+                    collections.add(this.result.getString("location"));
+                }
+                sql.close();
             }
         } catch (SQLException e) {
             System.out.println("Error in viewListDataLocation: " + e.getMessage());
@@ -123,9 +125,11 @@ public class ParkingLots extends MyModel {
                 sql.setString(1, venue_name);
                 sql.setString(2, location);
                 this.result= sql.executeQuery();
-            }
-            while(this.result.next()){
-                dateRange = this.result.getString("start_date")+"~"+this.result.getString("end_date");
+                
+                while(this.result.next()){
+                    dateRange = this.result.getString("start_date")+"~"+this.result.getString("end_date");
+                }
+                sql.close();
             }
         } catch (SQLException e) {
             System.out.println("Error in viewListDataString: " + e.getMessage());
@@ -144,6 +148,7 @@ public class ParkingLots extends MyModel {
                 sql.setString(1, venue_name);
                 sql.setString(2, location);
                 this.result= sql.executeQuery();
+                
                 while(this.result.next()){
                     listOccupiedLots = preserve.checkOccupiedLots(venue_name, location, reserve_date);
                     int available_lots = this.result.getInt("available_lots");                
@@ -154,11 +159,33 @@ public class ParkingLots extends MyModel {
                         }
                     }
                 }
+                sql.close();
             }
         } catch (SQLException e) {
             System.out.println("Error in checkLots: " + e.getMessage());
         }
         System.out.println(collections);
         return collections;
+    }
+    
+    public int getParkingLotsId(String venue_name, String location) {
+        int idParkingLots=0;
+        try {
+            if(!MyModel.conn.isClosed()){
+                PreparedStatement sql = (PreparedStatement)MyModel.conn.prepareStatement(
+                        "select * from parkinglots where venue_name=? and location=? limit 1");
+                sql.setString(1, venue_name);
+                sql.setString(2, location);
+                this.result= sql.executeQuery();
+                
+                while(this.result.next()){
+                    idParkingLots = this.result.getInt("id");
+                }
+                sql.close();
+            }
+        } catch (SQLException e) {
+            System.out.println("Error in checkLots: " + e.getMessage());
+        }
+        return idParkingLots;
     }
 }

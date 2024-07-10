@@ -6,7 +6,6 @@ package ticket.model;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
@@ -100,16 +99,18 @@ public class Account extends MyModel {
                         "select * from users where username = ? and password = md5(?) limit 1");
                 sql.setString(1, this.username);
                 sql.setString(2, this.password);
-                
                 this.result= sql.executeQuery();
-            }
-            while(this.result.next()){
-                Account tempAccount = new Account(this.result.getInt("id"),
+                
+                while(this.result.next()){
+                    Account tempAccount = new Account(this.result.getInt("id"),
                     this.result.getString("username"),
                     this.result.getString("password"),
                     this.result.getString("email"));
-                collections.add(tempAccount);
+                    collections.add(tempAccount);
+                }
+                sql.close();
             }
+
         } catch (SQLException e) {
             System.out.println("Error in checkUser account: " + e);
         }
@@ -126,6 +127,7 @@ public class Account extends MyModel {
                     sql.setString(2, this.password);
                     sql.setString(3, this.email);
                     sql.executeUpdate();
+                    sql.close();
                 }
             }
         } catch (SQLException e) {
@@ -142,14 +144,17 @@ public class Account extends MyModel {
                 PreparedStatement sql = (PreparedStatement)MyModel.conn.prepareStatement(
                         "select * from users");
                 this.result= sql.executeQuery();
-            }
-            while(this.result.next()){
-                Account tempAccount = new Account(this.result.getInt("id"),
+                
+                while(this.result.next()){
+                    Account tempAccount = new Account(this.result.getInt("id"),
                     this.result.getString("username"),
                     this.result.getString("password"),
                     this.result.getString("email"));
-                collections.add(tempAccount);
+                    collections.add(tempAccount);
+                }
+                sql.close();
             }
+
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }

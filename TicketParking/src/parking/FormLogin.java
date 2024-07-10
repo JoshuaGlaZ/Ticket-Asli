@@ -223,33 +223,4 @@ public class FormLogin extends javax.swing.JFrame implements Runnable {
     public void run() {
 
     }
-
-//    @Override
-//    public void run() {
-//        try {
-//            while (true) {
-//                getMessage();
-//            }
-//        } catch (Exception e) {
-//            System.out.println("Error di Login > \"Run\" methods : " + e);
-//        }
-//    }
-
-//    public void getMessage() {
-//        try {
-//            String chatServer = "";
-//            BufferedReader chatFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-//            chatServer = chatFromServer.readLine();
-//            if (chatServer.equals("SUCCESS")) {
-//                JOptionPane.showMessageDialog(this, "Login success.");
-//                FormReserve parkReservation = new FormReserve();
-//                parkReservation.setVisible(true);
-//                this.setVisible(false);
-//            } else {
-//                JOptionPane.showMessageDialog(this, "Register failed. Please try again.");
-//            }
-//        } catch (IOException ex) {
-//            System.out.println("Error di Register > \"GetMessage\" methods : " + ex);
-//        }
-//    }
 }

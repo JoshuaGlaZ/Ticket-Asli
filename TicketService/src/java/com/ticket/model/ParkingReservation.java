@@ -1,18 +1,12 @@
 package com.ticket.model;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Locale;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * ParkingLots model class
@@ -37,10 +31,10 @@ public class ParkingReservation extends MyModel {
     }
 
     // Getter and Setter methods...
-    public ParkingReservation(int _parking_lot_id, int _user_id, String reservation_date, int _lot_number, int _harga, String _jenis_tiket) {
+    public ParkingReservation(int _parking_lot_id, int _user_id, String _reservation_date, int _lot_number, int _harga, String _jenis_tiket) {
         this.parking_lot_id = _parking_lot_id;
         this.user_id = _user_id;
-        this.reservation_date = reservation_date;
+        this.reservation_date = _reservation_date;
         this.lot_number = _lot_number;
         this.harga = _harga;
         this.jenis_tiket = _jenis_tiket;
@@ -112,11 +106,7 @@ public class ParkingReservation extends MyModel {
                 );
                 sql.setInt(1, this.parking_lot_id);
                 sql.setInt(2, this.user_id);
-                try {
-                    sql.setDate(3, (java.sql.Date) formatter.parse(this.reservation_date));
-                } catch (ParseException ex) {
-                    Logger.getLogger(ParkingReservation.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                sql.setString(3, this.reservation_date);
                 sql.setInt(4, this.lot_number);
                 sql.setInt(5, this.harga);
                 sql.setString(6, this.jenis_tiket);
@@ -195,26 +185,6 @@ public class ParkingReservation extends MyModel {
         return null;
     }
     
-//    public ArrayList<Integer> checkOccupiedLots(int parking_lots_id) {
-//        ArrayList<Integer> collections = new ArrayList<Integer>();
-//        try {
-//            if(!MyModel.conn.isClosed()){
-//                PreparedStatement sql = (PreparedStatement)MyModel.conn.prepareStatement(
-//                        "select * from parkingreservations where parking_lot_id=? limit 1");
-//                sql.setInt(1, parking_lots_id);
-//                this.result= sql.executeQuery();
-//            }
-//            while(this.result.next()){
-//                collections.add(this.result.getInt("lot_number"));
-//            }
-//        } catch (SQLException e) {
-//            System.out.println("Error in checkOccupiedLots: " + e.getMessage());
-//        }
-//        return collections;
-//    }
-    
-
-    
     public ArrayList<Integer> checkOccupiedLots(String name, String location, LocalDate date_) {
        ArrayList<Integer> occupiedLots = new ArrayList<>();
        SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
@@ -244,11 +214,11 @@ public class ParkingReservation extends MyModel {
                         currDate = currDate.plusDays(1);
                     }
                 }
+                sql.close();
             }
         } catch (SQLException e) {
             System.out.println("Error in checkOccupiedLots: " + e.getMessage());
         }
-        System.out.println(occupiedLots);
         return occupiedLots;
     }
 }

@@ -6,13 +6,10 @@ package com.ticket.services;
 
 import com.ticket.model.ParkingLots;
 import com.ticket.model.ParkingReservation;
-import java.sql.Date;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Locale;
-import javax.jws.Oneway;
 import javax.jws.WebService;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
@@ -90,4 +87,13 @@ public class TicketWebService {
         return listTemParkingLots;
     }
 
+    /**
+     * Web service operation
+     */
+    @WebMethod(operationName = "getIdParkingLots")
+    public Integer getIdParkingLots(@WebParam(name = "venue_name") String venue_name, @WebParam(name = "location") String location) {
+        //TODO write your implementation code here:
+        int id = temParkingLots.getParkingLotsId(venue_name, location);
+        return id;
+    }
 }
