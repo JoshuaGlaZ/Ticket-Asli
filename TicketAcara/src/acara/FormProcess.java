@@ -53,16 +53,12 @@ public class FormProcess extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabelPilihTiketDisini = new javax.swing.JLabel();
         button1 = new java.awt.Button();
-        jLabelPilihTiketDisini1 = new javax.swing.JLabel();
         jLabelPilihTiketDisini2 = new javax.swing.JLabel();
         jLabelPilihTiketDisini3 = new javax.swing.JLabel();
         jLabelPilihTiketDisini4 = new javax.swing.JLabel();
         jLabelPilihTiketDisini5 = new javax.swing.JLabel();
-        jLabelPilihTiketDisini6 = new javax.swing.JLabel();
-        textJumlah = new java.awt.TextField();
         jDateReservasi = new com.toedter.calendar.JDateChooser();
         comboBoxJenisTicket = new javax.swing.JComboBox<>();
-        jLabelPilihTiketDisini7 = new javax.swing.JLabel();
         labelUser = new javax.swing.JLabel();
         labelEvent = new javax.swing.JLabel();
         jLabelPilihTiketDisini10 = new javax.swing.JLabel();
@@ -70,7 +66,7 @@ public class FormProcess extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setBackground(new java.awt.Color(153, 204, 255));
+        jPanel1.setBackground(new java.awt.Color(0, 102, 102));
 
         jLabelPilihTiketDisini.setBackground(new java.awt.Color(0, 0, 0));
         jLabelPilihTiketDisini.setFont(new java.awt.Font("Rockwell", 1, 36)); // NOI18N
@@ -78,10 +74,6 @@ public class FormProcess extends javax.swing.JFrame {
 
         button1.setBackground(new java.awt.Color(153, 204, 255));
         button1.setLabel("Exit");
-
-        jLabelPilihTiketDisini1.setBackground(new java.awt.Color(0, 0, 0));
-        jLabelPilihTiketDisini1.setFont(new java.awt.Font("Rockwell", 1, 14)); // NOI18N
-        jLabelPilihTiketDisini1.setText("Query ID Ticket");
 
         jLabelPilihTiketDisini2.setBackground(new java.awt.Color(0, 0, 0));
         jLabelPilihTiketDisini2.setFont(new java.awt.Font("Rockwell", 1, 14)); // NOI18N
@@ -99,12 +91,6 @@ public class FormProcess extends javax.swing.JFrame {
         jLabelPilihTiketDisini5.setFont(new java.awt.Font("Rockwell", 1, 14)); // NOI18N
         jLabelPilihTiketDisini5.setText("Jenis Ticket : ");
 
-        jLabelPilihTiketDisini6.setBackground(new java.awt.Color(0, 0, 0));
-        jLabelPilihTiketDisini6.setFont(new java.awt.Font("Rockwell", 1, 14)); // NOI18N
-        jLabelPilihTiketDisini6.setText("Jumlah : ");
-
-        textJumlah.setText("textField1");
-
         jDateReservasi.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
                 jDateReservasiPropertyChange(evt);
@@ -112,10 +98,6 @@ public class FormProcess extends javax.swing.JFrame {
         });
 
         comboBoxJenisTicket.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Basic", "Premium", "VIP" }));
-
-        jLabelPilihTiketDisini7.setBackground(new java.awt.Color(0, 0, 0));
-        jLabelPilihTiketDisini7.setFont(new java.awt.Font("Rockwell", 1, 14)); // NOI18N
-        jLabelPilihTiketDisini7.setText("ID Ticket :");
 
         labelUser.setBackground(new java.awt.Color(0, 0, 0));
         labelUser.setFont(new java.awt.Font("Rockwell", 1, 14)); // NOI18N
@@ -142,78 +124,65 @@ public class FormProcess extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabelPilihTiketDisini)
+                            .addComponent(jLabelPilihTiketDisini2)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabelPilihTiketDisini7)
-                                    .addComponent(jLabelPilihTiketDisini3))
-                                .addGap(85, 85, 85)
+                                    .addComponent(jLabelPilihTiketDisini4)
+                                    .addComponent(jLabelPilihTiketDisini5)
+                                    .addComponent(jLabelPilihTiketDisini10))
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(labelHarga)
+                                        .addGap(0, 0, Short.MAX_VALUE))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(comboBoxJenisTicket, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGap(15, 15, 15))
+                                    .addComponent(jDateReservasi, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGap(210, 210, 210))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabelPilihTiketDisini3)
+                                .addGap(86, 86, 86)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(labelEvent)
-                                    .addComponent(labelUser)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jLabelPilihTiketDisini1)
-                                        .addGap(175, 175, 175)
-                                        .addComponent(jLabelPilihTiketDisini10)
-                                        .addGap(28, 28, 28)
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(labelHarga))))))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabelPilihTiketDisini5)
-                                    .addComponent(jLabelPilihTiketDisini6)
-                                    .addComponent(jLabelPilihTiketDisini2))
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGap(62, 62, 62)
-                                        .addComponent(textJumlah, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGap(63, 63, 63)
-                                        .addComponent(comboBoxJenisTicket, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabelPilihTiketDisini4)
-                                .addGap(18, 18, 18)
-                                .addComponent(jDateReservasi, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addGap(225, 225, 225))))
+                                    .addComponent(labelUser)))
+                            .addComponent(jLabelPilihTiketDisini))
+                        .addContainerGap(30, Short.MAX_VALUE))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(99, 99, 99))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(18, 18, 18)
                 .addComponent(jLabelPilihTiketDisini)
-                .addGap(42, 42, 42)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabelPilihTiketDisini1)
-                    .addComponent(jLabelPilihTiketDisini7)
-                    .addComponent(jLabelPilihTiketDisini10)
-                    .addComponent(labelHarga))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(36, 36, 36)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelPilihTiketDisini3)
                     .addComponent(labelEvent))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelPilihTiketDisini2)
                     .addComponent(labelUser))
-                .addGap(34, 34, 34)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabelPilihTiketDisini4)
                     .addComponent(jDateReservasi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(comboBoxJenisTicket, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabelPilihTiketDisini5))
-                .addGap(24, 24, 24)
+                .addGap(21, 21, 21)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(textJumlah, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabelPilihTiketDisini6))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 117, Short.MAX_VALUE)
+                    .addComponent(jLabelPilihTiketDisini5)
+                    .addComponent(comboBoxJenisTicket, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(20, 20, 20)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelPilihTiketDisini10)
+                    .addComponent(labelHarga))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
                 .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(21, 21, 21))
+                .addGap(140, 140, 140))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -224,9 +193,9 @@ public class FormProcess extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 89, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -276,18 +245,14 @@ public class FormProcess extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> comboBoxJenisTicket;
     private com.toedter.calendar.JDateChooser jDateReservasi;
     private javax.swing.JLabel jLabelPilihTiketDisini;
-    private javax.swing.JLabel jLabelPilihTiketDisini1;
     private javax.swing.JLabel jLabelPilihTiketDisini10;
     private javax.swing.JLabel jLabelPilihTiketDisini2;
     private javax.swing.JLabel jLabelPilihTiketDisini3;
     private javax.swing.JLabel jLabelPilihTiketDisini4;
     private javax.swing.JLabel jLabelPilihTiketDisini5;
-    private javax.swing.JLabel jLabelPilihTiketDisini6;
-    private javax.swing.JLabel jLabelPilihTiketDisini7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel labelEvent;
     private javax.swing.JLabel labelHarga;
     private javax.swing.JLabel labelUser;
-    private java.awt.TextField textJumlah;
     // End of variables declaration//GEN-END:variables
 }
