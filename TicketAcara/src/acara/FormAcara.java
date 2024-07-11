@@ -4,6 +4,15 @@
  */
 package acara;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author matthew.d
@@ -13,9 +22,33 @@ public class FormAcara extends javax.swing.JFrame {
     /**
      * Creates new form FormPilihtiket
      */
+    
+    ArrayList<String> eventList;
+    public String e_id;
+    public Date e_startDate;
+    public Date e_endDate;
+    public String u_id;
+    FormLogin parent;
+    
     public FormAcara(FormLogin parentLogin) {
         initComponents();
+        parent=parentLogin;
+        u_id = parent.idAccount;
+
+        eventList = (ArrayList<String>) getEventList();
+        refreshTable();
     }
+    
+    public void refreshTable() {
+        DefaultTableModel model = (DefaultTableModel) jTableListAcara.getModel();
+        model.setRowCount(0);
+        
+        for (String stringEvent : eventList) {
+            String[] eventDetails = stringEvent.split("~");
+            model.addRow(eventDetails);
+        }
+    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -43,18 +76,18 @@ public class FormAcara extends javax.swing.JFrame {
         jTableListAcara.setBackground(new java.awt.Color(153, 204, 255));
         jTableListAcara.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "ID", "Deskripsi", "Start Date", "End Date", "Available", "Location"
+                "ID", "Name", "Deskripsi", "Start Date", "End Date", "Available", "Location"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -121,9 +154,18 @@ public class FormAcara extends javax.swing.JFrame {
         int row = jTableListAcara.getSelectedColumn();
         
         if (row >= 0) {
-            
-            FormProcess detailForm = new FormProcess();
-            detailForm.setVisible(true);
+            try {
+                DefaultTableModel model = (DefaultTableModel) jTableListAcara.getModel();
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+                e_id = model.getValueAt(row, 0).toString();
+                e_startDate = formatter.parse(model.getValueAt(row, 3).toString());
+                e_endDate = formatter.parse(model.getValueAt(row, 4).toString());
+                
+                FormProcess detailForm = new FormProcess(e_id, u_id, e_startDate, e_endDate);
+                detailForm.setVisible(true);
+            } catch (ParseException ex) {
+                Logger.getLogger(FormAcara.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }//GEN-LAST:event_jTableListAcaraMouseClicked
 
@@ -139,4 +181,11 @@ public class FormAcara extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTableListAcara;
     // End of variables declaration//GEN-END:variables
+
+    private static java.util.List<java.lang.String> getEventList() {
+        com.ticket.services.TicketWebService_Service service = new com.ticket.services.TicketWebService_Service();
+        com.ticket.services.TicketWebService port = service.getTicketWebServicePort();
+        return port.getEventList();
+    }
+
 }

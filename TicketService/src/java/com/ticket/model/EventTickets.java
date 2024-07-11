@@ -116,7 +116,18 @@ public class EventTickets extends MyModel {
 
     @Override
     public void updateData() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        try {
+            if (!MyModel.conn.isClosed()) {
+                PreparedStatement sql = MyModel.conn.prepareStatement(
+                        "UPDATE eventtickets SET claimed = 1 WHERE id = ?;"
+                );
+                sql.setInt(1, this.id);
+                sql.executeUpdate();
+                sql.close();
+            }
+        } catch (SQLException e) {
+            System.out.println("Error in updateData: " + e);
+        }
     }
 
     @Override

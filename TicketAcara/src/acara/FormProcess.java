@@ -4,6 +4,10 @@
  */
 package acara;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 /**
  *
  * @author louis
@@ -13,7 +17,27 @@ public class FormProcess extends javax.swing.JFrame {
     /**
      * Creates new form FormProcess
      */
-    public FormProcess() {
+    public FormProcess(String eventId, String userId, Date startDate, Date endDate) {
+       initComponents();
+       labelEvent.setText(eventId);
+       labelUser.setText(userId);
+        Date currentDate = new Date();
+        long currentMillis = currentDate.getTime();
+        if(startDate.before(currentDate)){
+            startDate.setTime(currentMillis+86400000);
+            if(endDate.before(startDate)){
+                endDate.setTime(currentMillis-86400000);
+            }
+        }
+        jDateReservasi.setMinSelectableDate(startDate);
+        jDateReservasi.setMaxSelectableDate(endDate);
+        jDateReservasi.setDate(null);
+        
+        comboBoxJenisTicket.setSelectedIndex(0);
+        labelHarga.setText("15000");
+    }
+
+    private FormProcess() {
         initComponents();
     }
 
@@ -35,14 +59,14 @@ public class FormProcess extends javax.swing.JFrame {
         jLabelPilihTiketDisini4 = new javax.swing.JLabel();
         jLabelPilihTiketDisini5 = new javax.swing.JLabel();
         jLabelPilihTiketDisini6 = new javax.swing.JLabel();
-        textField1 = new java.awt.TextField();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        textJumlah = new java.awt.TextField();
+        jDateReservasi = new com.toedter.calendar.JDateChooser();
+        comboBoxJenisTicket = new javax.swing.JComboBox<>();
         jLabelPilihTiketDisini7 = new javax.swing.JLabel();
-        jLabelPilihTiketDisini8 = new javax.swing.JLabel();
-        jLabelPilihTiketDisini9 = new javax.swing.JLabel();
+        labelUser = new javax.swing.JLabel();
+        labelEvent = new javax.swing.JLabel();
         jLabelPilihTiketDisini10 = new javax.swing.JLabel();
-        jLabelPilihTiketDisini11 = new javax.swing.JLabel();
+        labelHarga = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -79,29 +103,35 @@ public class FormProcess extends javax.swing.JFrame {
         jLabelPilihTiketDisini6.setFont(new java.awt.Font("Rockwell", 1, 14)); // NOI18N
         jLabelPilihTiketDisini6.setText("Jumlah : ");
 
-        textField1.setText("textField1");
+        textJumlah.setText("textField1");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jDateReservasi.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                jDateReservasiPropertyChange(evt);
+            }
+        });
+
+        comboBoxJenisTicket.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Basic", "Premium", "VIP" }));
 
         jLabelPilihTiketDisini7.setBackground(new java.awt.Color(0, 0, 0));
         jLabelPilihTiketDisini7.setFont(new java.awt.Font("Rockwell", 1, 14)); // NOI18N
         jLabelPilihTiketDisini7.setText("ID Ticket :");
 
-        jLabelPilihTiketDisini8.setBackground(new java.awt.Color(0, 0, 0));
-        jLabelPilihTiketDisini8.setFont(new java.awt.Font("Rockwell", 1, 14)); // NOI18N
-        jLabelPilihTiketDisini8.setText("Query ID User ");
+        labelUser.setBackground(new java.awt.Color(0, 0, 0));
+        labelUser.setFont(new java.awt.Font("Rockwell", 1, 14)); // NOI18N
+        labelUser.setText("Query ID User ");
 
-        jLabelPilihTiketDisini9.setBackground(new java.awt.Color(0, 0, 0));
-        jLabelPilihTiketDisini9.setFont(new java.awt.Font("Rockwell", 1, 14)); // NOI18N
-        jLabelPilihTiketDisini9.setText("Query ID Event");
+        labelEvent.setBackground(new java.awt.Color(0, 0, 0));
+        labelEvent.setFont(new java.awt.Font("Rockwell", 1, 14)); // NOI18N
+        labelEvent.setText("Query ID Event");
 
         jLabelPilihTiketDisini10.setBackground(new java.awt.Color(0, 0, 0));
         jLabelPilihTiketDisini10.setFont(new java.awt.Font("Rockwell", 1, 14)); // NOI18N
         jLabelPilihTiketDisini10.setText("Harga : ");
 
-        jLabelPilihTiketDisini11.setBackground(new java.awt.Color(0, 0, 0));
-        jLabelPilihTiketDisini11.setFont(new java.awt.Font("Rockwell", 1, 14)); // NOI18N
-        jLabelPilihTiketDisini11.setText("Query Harga");
+        labelHarga.setBackground(new java.awt.Color(0, 0, 0));
+        labelHarga.setFont(new java.awt.Font("Rockwell", 1, 14)); // NOI18N
+        labelHarga.setText("Query Harga");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -119,8 +149,8 @@ public class FormProcess extends javax.swing.JFrame {
                                     .addComponent(jLabelPilihTiketDisini3))
                                 .addGap(85, 85, 85)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabelPilihTiketDisini9)
-                                    .addComponent(jLabelPilihTiketDisini8)
+                                    .addComponent(labelEvent)
+                                    .addComponent(labelUser)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(jLabelPilihTiketDisini1)
                                         .addGap(175, 175, 175)
@@ -128,7 +158,7 @@ public class FormProcess extends javax.swing.JFrame {
                                         .addGap(28, 28, 28)
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jLabelPilihTiketDisini11))))))
+                                            .addComponent(labelHarga))))))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -140,14 +170,14 @@ public class FormProcess extends javax.swing.JFrame {
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addGap(62, 62, 62)
-                                        .addComponent(textField1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addComponent(textJumlah, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addGap(63, 63, 63)
-                                        .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                        .addComponent(comboBoxJenisTicket, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabelPilihTiketDisini4)
                                 .addGap(18, 18, 18)
-                                .addComponent(jDateChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                .addComponent(jDateReservasi, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addGap(225, 225, 225))))
         );
         jPanel1Layout.setVerticalGroup(
@@ -160,28 +190,28 @@ public class FormProcess extends javax.swing.JFrame {
                     .addComponent(jLabelPilihTiketDisini1)
                     .addComponent(jLabelPilihTiketDisini7)
                     .addComponent(jLabelPilihTiketDisini10)
-                    .addComponent(jLabelPilihTiketDisini11))
+                    .addComponent(labelHarga))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelPilihTiketDisini3)
-                    .addComponent(jLabelPilihTiketDisini9))
+                    .addComponent(labelEvent))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabelPilihTiketDisini2)
-                    .addComponent(jLabelPilihTiketDisini8))
+                    .addComponent(labelUser))
                 .addGap(34, 34, 34)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabelPilihTiketDisini4)
-                    .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jDateReservasi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(comboBoxJenisTicket, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabelPilihTiketDisini5))
                 .addGap(24, 24, 24)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(textField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(textJumlah, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabelPilihTiketDisini6))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 117, Short.MAX_VALUE)
                 .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(21, 21, 21))
         );
@@ -195,12 +225,16 @@ public class FormProcess extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 480, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 89, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jDateReservasiPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jDateReservasiPropertyChange
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jDateReservasiPropertyChange
 
     /**
      * @param args the command line arguments
@@ -239,21 +273,21 @@ public class FormProcess extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private java.awt.Button button1;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
+    private javax.swing.JComboBox<String> comboBoxJenisTicket;
+    private com.toedter.calendar.JDateChooser jDateReservasi;
     private javax.swing.JLabel jLabelPilihTiketDisini;
     private javax.swing.JLabel jLabelPilihTiketDisini1;
     private javax.swing.JLabel jLabelPilihTiketDisini10;
-    private javax.swing.JLabel jLabelPilihTiketDisini11;
     private javax.swing.JLabel jLabelPilihTiketDisini2;
     private javax.swing.JLabel jLabelPilihTiketDisini3;
     private javax.swing.JLabel jLabelPilihTiketDisini4;
     private javax.swing.JLabel jLabelPilihTiketDisini5;
     private javax.swing.JLabel jLabelPilihTiketDisini6;
     private javax.swing.JLabel jLabelPilihTiketDisini7;
-    private javax.swing.JLabel jLabelPilihTiketDisini8;
-    private javax.swing.JLabel jLabelPilihTiketDisini9;
     private javax.swing.JPanel jPanel1;
-    private java.awt.TextField textField1;
+    private javax.swing.JLabel labelEvent;
+    private javax.swing.JLabel labelHarga;
+    private javax.swing.JLabel labelUser;
+    private java.awt.TextField textJumlah;
     // End of variables declaration//GEN-END:variables
 }

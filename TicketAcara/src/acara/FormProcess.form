@@ -29,7 +29,7 @@
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <Component id="jPanel1" min="-2" pref="480" max="-2" attributes="0"/>
+              <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="0" pref="89" max="32767" attributes="0"/>
           </Group>
       </Group>
@@ -59,8 +59,8 @@
                                   </Group>
                                   <EmptySpace min="-2" pref="85" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="jLabelPilihTiketDisini9" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jLabelPilihTiketDisini8" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="labelEvent" min="-2" max="-2" attributes="0"/>
+                                      <Component id="labelUser" alignment="0" min="-2" max="-2" attributes="0"/>
                                       <Group type="102" alignment="0" attributes="0">
                                           <Component id="jLabelPilihTiketDisini1" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace min="-2" pref="175" max="-2" attributes="0"/>
@@ -68,7 +68,7 @@
                                           <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
                                           <Group type="103" groupAlignment="0" attributes="0">
                                               <Component id="button1" min="-2" pref="78" max="-2" attributes="0"/>
-                                              <Component id="jLabelPilihTiketDisini11" min="-2" max="-2" attributes="0"/>
+                                              <Component id="labelHarga" min="-2" max="-2" attributes="0"/>
                                           </Group>
                                       </Group>
                                   </Group>
@@ -87,18 +87,18 @@
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Group type="102" attributes="0">
                                           <EmptySpace min="-2" pref="62" max="-2" attributes="0"/>
-                                          <Component id="textField1" max="32767" attributes="0"/>
+                                          <Component id="textJumlah" max="32767" attributes="0"/>
                                       </Group>
                                       <Group type="102" attributes="0">
                                           <EmptySpace min="-2" pref="63" max="-2" attributes="0"/>
-                                          <Component id="jComboBox1" max="32767" attributes="0"/>
+                                          <Component id="comboBoxJenisTicket" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                               </Group>
                               <Group type="102" alignment="1" attributes="0">
                                   <Component id="jLabelPilihTiketDisini4" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Component id="jDateChooser1" max="32767" attributes="0"/>
+                                  <Component id="jDateReservasi" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                           <EmptySpace min="-2" pref="225" max="-2" attributes="0"/>
@@ -117,34 +117,34 @@
                       <Component id="jLabelPilihTiketDisini1" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabelPilihTiketDisini7" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabelPilihTiketDisini10" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jLabelPilihTiketDisini11" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="labelHarga" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabelPilihTiketDisini3" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jLabelPilihTiketDisini9" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="labelEvent" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="jLabelPilihTiketDisini2" min="-2" max="-2" attributes="0"/>
-                      <Component id="jLabelPilihTiketDisini8" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="labelUser" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="jLabelPilihTiketDisini4" min="-2" max="-2" attributes="0"/>
-                      <Component id="jDateChooser1" min="-2" max="-2" attributes="0"/>
+                      <Component id="jDateReservasi" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="jComboBox1" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="comboBoxJenisTicket" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabelPilihTiketDisini5" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="textField1" min="-2" max="-2" attributes="0"/>
+                      <Component id="textJumlah" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabelPilihTiketDisini6" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace max="32767" attributes="0"/>
+                  <EmptySpace pref="117" max="32767" attributes="0"/>
                   <Component id="button1" min="-2" pref="45" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
               </Group>
@@ -237,21 +237,23 @@
             <Property name="text" type="java.lang.String" value="Jumlah : "/>
           </Properties>
         </Component>
-        <Component class="java.awt.TextField" name="textField1">
+        <Component class="java.awt.TextField" name="textJumlah">
           <Properties>
             <Property name="text" type="java.lang.String" value="textField1"/>
           </Properties>
         </Component>
-        <Component class="com.toedter.calendar.JDateChooser" name="jDateChooser1">
+        <Component class="com.toedter.calendar.JDateChooser" name="jDateReservasi">
+          <Events>
+            <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="jDateReservasiPropertyChange"/>
+          </Events>
         </Component>
-        <Component class="javax.swing.JComboBox" name="jComboBox1">
+        <Component class="javax.swing.JComboBox" name="comboBoxJenisTicket">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="4">
-                <StringItem index="0" value="Item 1"/>
-                <StringItem index="1" value="Item 2"/>
-                <StringItem index="2" value="Item 3"/>
-                <StringItem index="3" value="Item 4"/>
+              <StringArray count="3">
+                <StringItem index="0" value="Basic"/>
+                <StringItem index="1" value="Premium"/>
+                <StringItem index="2" value="VIP"/>
               </StringArray>
             </Property>
           </Properties>
@@ -270,7 +272,7 @@
             <Property name="text" type="java.lang.String" value="ID Ticket :"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabelPilihTiketDisini8">
+        <Component class="javax.swing.JLabel" name="labelUser">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="0" green="0" red="0" type="rgb"/>
@@ -281,7 +283,7 @@
             <Property name="text" type="java.lang.String" value="Query ID User "/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabelPilihTiketDisini9">
+        <Component class="javax.swing.JLabel" name="labelEvent">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="0" green="0" red="0" type="rgb"/>
@@ -303,7 +305,7 @@
             <Property name="text" type="java.lang.String" value="Harga : "/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabelPilihTiketDisini11">
+        <Component class="javax.swing.JLabel" name="labelHarga">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="0" green="0" red="0" type="rgb"/>

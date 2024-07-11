@@ -4,6 +4,8 @@
  */
 package com.ticket.services;
 
+import com.ticket.model.Events;
+import com.ticket.model.EventTickets;
 import com.ticket.model.ParkingLots;
 import com.ticket.model.ParkingReservation;
 import java.time.LocalDate;
@@ -26,6 +28,8 @@ import javax.xml.bind.annotation.XmlSeeAlso;
 public class TicketWebService {
     ParkingLots temParkingLots = new ParkingLots();
     ParkingReservation pr;
+    Events temEvents = new Events();
+    EventTickets et;
     /**
      * This is a sample web service operation
      */
@@ -95,5 +99,15 @@ public class TicketWebService {
         //TODO write your implementation code here:
         int id = temParkingLots.getParkingLotsId(venue_name, location);
         return id;
+    }
+
+    /**
+     * Web service operation
+     */
+    @WebMethod(operationName = "getEventList")
+    public ArrayList<String> getEventList() {
+        //TODO write your implementation code here:
+        ArrayList<String> eventList = temEvents.viewListDataEvent();
+        return eventList;
     }
 }
