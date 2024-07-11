@@ -34,6 +34,7 @@ public class FormAcara extends javax.swing.JFrame {
         initComponents();
         parent=parentLogin;
         u_id = parent.idAccount;
+        this.setLocationRelativeTo(null);
 
         eventList = (ArrayList<String>) getEventList();
         refreshTable();
@@ -43,9 +44,11 @@ public class FormAcara extends javax.swing.JFrame {
         DefaultTableModel model = (DefaultTableModel) jTableListAcara.getModel();
         model.setRowCount(0);
         
-        for (String stringEvent : eventList) {
-            String[] eventDetails = stringEvent.split("~");
-            model.addRow(eventDetails);
+        if (!eventList.isEmpty()) {
+            for (String stringEvent : eventList) {
+               String[] eventDetails = stringEvent.split("~");
+               model.addRow(eventDetails);
+            }   
         }
     }
     
@@ -63,7 +66,7 @@ public class FormAcara extends javax.swing.JFrame {
         jLabelPilihTiketDisini = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableListAcara = new javax.swing.JTable();
-        button1 = new java.awt.Button();
+        buttonClaim = new java.awt.Button();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -104,8 +107,13 @@ public class FormAcara extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jTableListAcara);
 
-        button1.setBackground(new java.awt.Color(153, 204, 255));
-        button1.setLabel("Exit");
+        buttonClaim.setBackground(new java.awt.Color(153, 204, 255));
+        buttonClaim.setLabel("CLAIMED");
+        buttonClaim.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonClaimActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -119,7 +127,7 @@ public class FormAcara extends javax.swing.JFrame {
                         .addComponent(jLabelPilihTiketDisini)
                         .addGap(153, 153, 153))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(buttonClaim, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(20, 20, 20))))
         );
         jPanel1Layout.setVerticalGroup(
@@ -130,7 +138,7 @@ public class FormAcara extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(24, 24, 24)
-                .addComponent(button1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(buttonClaim, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -151,23 +159,33 @@ public class FormAcara extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jTableListAcaraMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableListAcaraMouseClicked
-        int row = jTableListAcara.getSelectedColumn();
+        int row = jTableListAcara.getSelectedRow();
         
         if (row >= 0) {
             try {
                 DefaultTableModel model = (DefaultTableModel) jTableListAcara.getModel();
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+                if (model.getColumnCount() >= 5) {
                 e_id = model.getValueAt(row, 0).toString();
                 e_startDate = formatter.parse(model.getValueAt(row, 3).toString());
                 e_endDate = formatter.parse(model.getValueAt(row, 4).toString());
-                
+
                 FormProcess detailForm = new FormProcess(e_id, u_id, e_startDate, e_endDate);
                 detailForm.setVisible(true);
+                refreshTable();
+            }
             } catch (ParseException ex) {
                 Logger.getLogger(FormAcara.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }//GEN-LAST:event_jTableListAcaraMouseClicked
+
+    private void buttonClaimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonClaimActionPerformed
+        // TODO add your handling code here:
+        FormClaimTicket claimForm = new FormClaimTicket();
+        claimForm.setVisible(true);
+        refreshTable();
+    }//GEN-LAST:event_buttonClaimActionPerformed
 
     /**
      * @param args the command line arguments
@@ -175,7 +193,7 @@ public class FormAcara extends javax.swing.JFrame {
    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private java.awt.Button button1;
+    private java.awt.Button buttonClaim;
     private javax.swing.JLabel jLabelPilihTiketDisini;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;

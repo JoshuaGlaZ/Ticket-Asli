@@ -7,6 +7,7 @@ package acara;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -18,28 +19,31 @@ public class FormProcess extends javax.swing.JFrame {
      * Creates new form FormProcess
      */
     public FormProcess(String eventId, String userId, Date startDate, Date endDate) {
-       initComponents();
-       labelEvent.setText(eventId);
-       labelUser.setText(userId);
+        initComponents();
+        this.setLocationRelativeTo(null);
+        eventId_ = eventId;
+        userId_ = userId;
+        labelEvent.setText(eventId_);
+        labelUser.setText(userId_);
         Date currentDate = new Date();
         long currentMillis = currentDate.getTime();
-        if(startDate.before(currentDate)){
-            startDate.setTime(currentMillis+86400000);
-            if(endDate.before(startDate)){
-                endDate.setTime(currentMillis-86400000);
+        if (startDate.before(currentDate)) {
+            startDate.setTime(currentMillis + 86400000);
+            if (endDate.before(startDate)) {
+                endDate.setTime(currentMillis - 86400000);
             }
         }
         jDateReservasi.setMinSelectableDate(startDate);
         jDateReservasi.setMaxSelectableDate(endDate);
         jDateReservasi.setDate(null);
-        
+
         comboBoxJenisTicket.setSelectedIndex(0);
         labelHarga.setText("15000");
     }
-
-    private FormProcess() {
-        initComponents();
-    }
+    
+    String eventId_;
+    String userId_;
+    String reserve_date;
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -52,7 +56,7 @@ public class FormProcess extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jLabelPilihTiketDisini = new javax.swing.JLabel();
-        button1 = new java.awt.Button();
+        buttonCancel = new java.awt.Button();
         jLabelPilihTiketDisini2 = new javax.swing.JLabel();
         jLabelPilihTiketDisini3 = new javax.swing.JLabel();
         jLabelPilihTiketDisini4 = new javax.swing.JLabel();
@@ -63,17 +67,23 @@ public class FormProcess extends javax.swing.JFrame {
         labelEvent = new javax.swing.JLabel();
         jLabelPilihTiketDisini10 = new javax.swing.JLabel();
         labelHarga = new javax.swing.JLabel();
+        buttonPesan = new java.awt.Button();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setBackground(new java.awt.Color(0, 102, 102));
+        jPanel1.setBackground(new java.awt.Color(51, 255, 204));
 
         jLabelPilihTiketDisini.setBackground(new java.awt.Color(0, 0, 0));
         jLabelPilihTiketDisini.setFont(new java.awt.Font("Rockwell", 1, 36)); // NOI18N
         jLabelPilihTiketDisini.setText("Event Ticket Reservation - Process");
 
-        button1.setBackground(new java.awt.Color(153, 204, 255));
-        button1.setLabel("Exit");
+        buttonCancel.setBackground(new java.awt.Color(153, 204, 255));
+        buttonCancel.setLabel("CANCEL");
+        buttonCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonCancelActionPerformed(evt);
+            }
+        });
 
         jLabelPilihTiketDisini2.setBackground(new java.awt.Color(0, 0, 0));
         jLabelPilihTiketDisini2.setFont(new java.awt.Font("Rockwell", 1, 14)); // NOI18N
@@ -98,6 +108,11 @@ public class FormProcess extends javax.swing.JFrame {
         });
 
         comboBoxJenisTicket.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Basic", "Premium", "VIP" }));
+        comboBoxJenisTicket.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboBoxJenisTicketActionPerformed(evt);
+            }
+        });
 
         labelUser.setBackground(new java.awt.Color(0, 0, 0));
         labelUser.setFont(new java.awt.Font("Rockwell", 1, 14)); // NOI18N
@@ -114,6 +129,15 @@ public class FormProcess extends javax.swing.JFrame {
         labelHarga.setBackground(new java.awt.Color(0, 0, 0));
         labelHarga.setFont(new java.awt.Font("Rockwell", 1, 14)); // NOI18N
         labelHarga.setText("Query Harga");
+
+        buttonPesan.setActionCommand("PESAN");
+        buttonPesan.setBackground(new java.awt.Color(153, 204, 255));
+        buttonPesan.setLabel("PESAN");
+        buttonPesan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonPesanActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -151,9 +175,11 @@ public class FormProcess extends javax.swing.JFrame {
                             .addComponent(jLabelPilihTiketDisini))
                         .addContainerGap(30, Short.MAX_VALUE))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(99, 99, 99))
+                .addGap(110, 110, 110)
+                .addComponent(buttonPesan, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(buttonCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(122, 122, 122))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -161,28 +187,31 @@ public class FormProcess extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jLabelPilihTiketDisini)
                 .addGap(36, 36, 36)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabelPilihTiketDisini3)
-                    .addComponent(labelEvent))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabelPilihTiketDisini2)
-                    .addComponent(labelUser))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabelPilihTiketDisini4)
-                    .addComponent(jDateReservasi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(21, 21, 21)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabelPilihTiketDisini5)
-                    .addComponent(comboBoxJenisTicket, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(20, 20, 20)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabelPilihTiketDisini10)
-                    .addComponent(labelHarga))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
-                .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(140, 140, 140))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabelPilihTiketDisini3)
+                            .addComponent(labelEvent))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabelPilihTiketDisini2)
+                            .addComponent(labelUser))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabelPilihTiketDisini4)
+                            .addComponent(jDateReservasi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(21, 21, 21)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabelPilihTiketDisini5)
+                            .addComponent(comboBoxJenisTicket, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(20, 20, 20)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabelPilihTiketDisini10)
+                            .addComponent(labelHarga))
+                        .addGap(33, 33, 33)
+                        .addComponent(buttonPesan, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(buttonCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -193,55 +222,48 @@ public class FormProcess extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void buttonPesanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonPesanActionPerformed
+        // TODO add your handling code here:
+        if (jDateReservasi.getDate() != null) {
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+            reserve_date = formatter.format(jDateReservasi.getDate());
+            int newId = reserveNewTicket(Integer.parseInt(eventId_), Integer.parseInt(userId_), reserve_date, Integer.parseInt(labelHarga.getText()), comboBoxJenisTicket.getSelectedItem().toString());
+            JOptionPane.showMessageDialog(this, "Reserve ticket berhasil. Ticket ID anda adalah " + newId);
+
+        }
+    }//GEN-LAST:event_buttonPesanActionPerformed
+
     private void jDateReservasiPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jDateReservasiPropertyChange
         // TODO add your handling code here:
     }//GEN-LAST:event_jDateReservasiPropertyChange
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FormProcess.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FormProcess.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FormProcess.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FormProcess.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+    private void buttonCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCancelActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
+    }//GEN-LAST:event_buttonCancelActionPerformed
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new FormProcess().setVisible(true);
+    private void comboBoxJenisTicketActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxJenisTicketActionPerformed
+        // TODO add your handling code here:
+        if (comboBoxJenisTicket.getSelectedItem() != null) {
+            if (comboBoxJenisTicket.getSelectedItem().equals("Basic")) {
+                labelHarga.setText("15000");
+            } else if (comboBoxJenisTicket.getSelectedItem().equals("Premium")) {
+                labelHarga.setText("50000");
+            } else if (comboBoxJenisTicket.getSelectedItem().equals("VIP")) {
+                labelHarga.setText("80000");
             }
-        });
-    }
+        }
+    }//GEN-LAST:event_comboBoxJenisTicketActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private java.awt.Button button1;
+    private java.awt.Button buttonCancel;
+    private java.awt.Button buttonPesan;
     private javax.swing.JComboBox<String> comboBoxJenisTicket;
     private com.toedter.calendar.JDateChooser jDateReservasi;
     private javax.swing.JLabel jLabelPilihTiketDisini;
@@ -255,4 +277,11 @@ public class FormProcess extends javax.swing.JFrame {
     private javax.swing.JLabel labelHarga;
     private javax.swing.JLabel labelUser;
     // End of variables declaration//GEN-END:variables
+
+    private static int reserveNewTicket(int parkingLotId, int userId, java.lang.String reservationDate, int harga, java.lang.String jenisTiket) {
+        com.ticket.services.TicketWebService_Service service = new com.ticket.services.TicketWebService_Service();
+        com.ticket.services.TicketWebService port = service.getTicketWebServicePort();
+        return port.reserveNewTicket(parkingLotId, userId, reservationDate, harga, jenisTiket);
+    }
+
 }

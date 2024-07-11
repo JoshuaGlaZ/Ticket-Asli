@@ -55,7 +55,7 @@
                           <EmptySpace min="-2" pref="153" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="1" attributes="0">
-                          <Component id="button1" min="-2" pref="99" max="-2" attributes="0"/>
+                          <Component id="buttonClaim" min="-2" pref="99" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -70,7 +70,7 @@
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="jScrollPane1" min="-2" pref="115" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
-                  <Component id="button1" max="32767" attributes="0"/>
+                  <Component id="buttonClaim" max="32767" attributes="0"/>
                   <EmptySpace min="-2" max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -164,13 +164,16 @@
             </Component>
           </SubComponents>
         </Container>
-        <Component class="java.awt.Button" name="button1">
+        <Component class="java.awt.Button" name="buttonClaim">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="cc" red="99" type="rgb"/>
             </Property>
-            <Property name="label" type="java.lang.String" value="Exit"/>
+            <Property name="label" type="java.lang.String" value="CLAIMED"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonClaimActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

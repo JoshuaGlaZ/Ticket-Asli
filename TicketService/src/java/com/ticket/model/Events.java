@@ -135,7 +135,13 @@ public class Events extends MyModel{
         try {
             if(!MyModel.conn.isClosed()){
                 PreparedStatement sql = (PreparedStatement)MyModel.conn.prepareStatement(
-                        "select * from events");
+                        "SELECT e.id, e.name, e.description, e.start_date, e.end_date, "
+                                + "e.available_ticket, e.location, e.created_at, COUNT(et.event_id) "
+                                + "AS ticket_count FROM events e LEFT JOIN eventtickets et ON "
+                                + "e.id = et.event_id GROUP BY e.id, e.name, e.description, "
+                                + "e.start_date, e.end_date, e.available_ticket, e.location, "
+                                + "e.created_at HAVING e.available_ticket > COALESCE(COUNT(et.event_id), "
+                                + "0); ");
                 this.result= sql.executeQuery();
                 
                 while(this.result.next()){
@@ -163,7 +169,13 @@ public class Events extends MyModel{
         try {
             if(!MyModel.conn.isClosed()){
                 PreparedStatement sql = (PreparedStatement)MyModel.conn.prepareStatement(
-                        "select * from events");
+                        "SELECT e.id, e.name, e.description, e.start_date, e.end_date, "
+                                + "e.available_ticket, e.location, e.created_at, COUNT(et.event_id) "
+                                + "AS ticket_count FROM events e LEFT JOIN eventtickets et ON "
+                                + "e.id = et.event_id GROUP BY e.id, e.name, e.description, "
+                                + "e.start_date, e.end_date, e.available_ticket, e.location, "
+                                + "e.created_at HAVING e.available_ticket > COALESCE(COUNT(et.event_id), "
+                                + "0); ");
                 this.result= sql.executeQuery();
                 
                 while(this.result.next()){

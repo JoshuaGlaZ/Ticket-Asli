@@ -4,6 +4,8 @@
  */
 package acara;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author louis
@@ -15,6 +17,7 @@ public class FormClaimTicket extends javax.swing.JFrame {
      */
     public FormClaimTicket() {
         initComponents();
+        this.setLocationRelativeTo(null);
     }
 
     /**
@@ -29,9 +32,10 @@ public class FormClaimTicket extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabelPilihTiketDisini = new javax.swing.JLabel();
         jLabelPilihTiketDisini4 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        txtClaimTicketId = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        buttonExit = new java.awt.Button();
+        buttonClaim = new java.awt.Button();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -45,11 +49,23 @@ public class FormClaimTicket extends javax.swing.JFrame {
         jLabelPilihTiketDisini4.setFont(new java.awt.Font("Rockwell", 1, 14)); // NOI18N
         jLabelPilihTiketDisini4.setText("Masukkan ID Ticket anda di bawah ini ");
 
-        jTextField1.setText("jTextFieldIkan");
-
         jLabel1.setText("ID TIcket : ");
 
-        jButton1.setText("jButton1");
+        buttonExit.setBackground(new java.awt.Color(153, 204, 255));
+        buttonExit.setLabel("EXIT");
+        buttonExit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonExitActionPerformed(evt);
+            }
+        });
+
+        buttonClaim.setBackground(new java.awt.Color(153, 204, 255));
+        buttonClaim.setLabel("CLAIMED");
+        buttonClaim.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonClaimActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -58,19 +74,22 @@ public class FormClaimTicket extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(237, 237, 237)
-                        .addComponent(jLabelPilihTiketDisini4))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(27, 27, 27)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabelPilihTiketDisini)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(62, 62, 62)
-                                .addComponent(jButton1))
-                            .addComponent(jLabelPilihTiketDisini))))
-                .addContainerGap(45, Short.MAX_VALUE))
+                                .addComponent(txtClaimTicketId, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 228, Short.MAX_VALUE)
+                                .addComponent(buttonExit, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(87, 87, 87))))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(237, 237, 237)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(buttonClaim, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabelPilihTiketDisini4))))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -80,11 +99,13 @@ public class FormClaimTicket extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabelPilihTiketDisini4)
                 .addGap(29, 29, 29)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
-                .addContainerGap(83, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(buttonExit, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel1)
+                        .addComponent(txtClaimTicketId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(buttonClaim, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addContainerGap(12, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -100,6 +121,24 @@ public class FormClaimTicket extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void buttonExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonExitActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
+    }//GEN-LAST:event_buttonExitActionPerformed
+
+    private void buttonClaimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonClaimActionPerformed
+        // TODO add your handling code here:
+        if (txtClaimTicketId.getText() != "") {
+            claimTicket(Integer.parseInt(txtClaimTicketId.getText()));
+            JOptionPane.showMessageDialog(this, "Ticket anda telah diclaim");
+            this.setVisible(false);
+
+        } else {
+            JOptionPane.showMessageDialog(this, "Inputkan Ticket ID anda");
+        }
+        
+    }//GEN-LAST:event_buttonClaimActionPerformed
 
     /**
      * @param args the command line arguments
@@ -122,7 +161,6 @@ public class FormClaimTicket extends javax.swing.JFrame {
         } catch (InstantiationException ex) {
             java.util.logging.Logger.getLogger(FormClaimTicket.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FormClaimTicket.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(FormClaimTicket.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
@@ -137,11 +175,18 @@ public class FormClaimTicket extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private java.awt.Button buttonClaim;
+    private java.awt.Button buttonExit;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabelPilihTiketDisini;
     private javax.swing.JLabel jLabelPilihTiketDisini4;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField txtClaimTicketId;
     // End of variables declaration//GEN-END:variables
+
+    private static void claimTicket(int ticketId) {
+        com.ticket.services.TicketWebService_Service service = new com.ticket.services.TicketWebService_Service();
+        com.ticket.services.TicketWebService port = service.getTicketWebServicePort();
+        port.claimTicket(ticketId);
+    }
 }

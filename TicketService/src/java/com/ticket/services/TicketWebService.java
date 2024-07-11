@@ -46,6 +46,26 @@ public class TicketWebService {
         pr = new ParkingReservation(parking_lot_id, user_id, reservation_date, lot_number, harga, jenis_tiket);
         pr.insertData();
     }
+    
+    /**
+     * Web service operation
+     */
+    @WebMethod(operationName = "reserveNewTicket")
+    public int reserveNewTicket(@WebParam(name = "parking_lot_id") int event_id, @WebParam(name = "user_id") int user_id, @WebParam(name = "reservation_date") String reservation_date, @WebParam(name = "harga") int harga, @WebParam(name = "jenis_tiket") String jenis_tiket) {
+        et = new EventTickets(event_id, user_id, reservation_date, harga, jenis_tiket);
+        return Integer.parseInt(et.insertData());
+    }
+    
+    /**
+     * Web service operation
+     */
+    @WebMethod(operationName = "claimTicket")
+    public void claimTicket(@WebParam(name = "ticket_id") int ticketId) {
+        et = new EventTickets();
+        et.setId(ticketId);
+        et.updateData();
+    }
+
 
     /**
      * Web service operation

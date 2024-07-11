@@ -4,17 +4,23 @@
 <xsd:import namespace="http://services.ticket.com/" schemaLocation="http://localhost:8080/TicketService/TicketWebService?xsd=1"/>
 </xsd:schema>
 </types>
-<message name="reserveNewLot">
-<part name="parameters" element="tns:reserveNewLot"/>
+<message name="hello">
+<part name="parameters" element="tns:hello"/>
 </message>
-<message name="reserveNewLotResponse">
-<part name="parameters" element="tns:reserveNewLotResponse"/>
+<message name="helloResponse">
+<part name="parameters" element="tns:helloResponse"/>
 </message>
-<message name="getIdParkingLots">
-<part name="parameters" element="tns:getIdParkingLots"/>
+<message name="claimTicket">
+<part name="parameters" element="tns:claimTicket"/>
 </message>
-<message name="getIdParkingLotsResponse">
-<part name="parameters" element="tns:getIdParkingLotsResponse"/>
+<message name="claimTicketResponse">
+<part name="parameters" element="tns:claimTicketResponse"/>
+</message>
+<message name="reserveNewTicket">
+<part name="parameters" element="tns:reserveNewTicket"/>
+</message>
+<message name="reserveNewTicketResponse">
+<part name="parameters" element="tns:reserveNewTicketResponse"/>
 </message>
 <message name="isiComboVenue">
 <part name="parameters" element="tns:isiComboVenue"/>
@@ -40,11 +46,11 @@
 <message name="isiDateCheckInResponse">
 <part name="parameters" element="tns:isiDateCheckInResponse"/>
 </message>
-<message name="hello">
-<part name="parameters" element="tns:hello"/>
+<message name="getIdParkingLots">
+<part name="parameters" element="tns:getIdParkingLots"/>
 </message>
-<message name="helloResponse">
-<part name="parameters" element="tns:helloResponse"/>
+<message name="getIdParkingLotsResponse">
+<part name="parameters" element="tns:getIdParkingLotsResponse"/>
 </message>
 <message name="getEventList">
 <part name="parameters" element="tns:getEventList"/>
@@ -52,14 +58,24 @@
 <message name="getEventListResponse">
 <part name="parameters" element="tns:getEventListResponse"/>
 </message>
+<message name="reserveNewLot">
+<part name="parameters" element="tns:reserveNewLot"/>
+</message>
+<message name="reserveNewLotResponse">
+<part name="parameters" element="tns:reserveNewLotResponse"/>
+</message>
 <portType name="TicketWebService">
-<operation name="reserveNewLot">
-<input wsam:Action="http://services.ticket.com/TicketWebService/reserveNewLotRequest" message="tns:reserveNewLot"/>
-<output wsam:Action="http://services.ticket.com/TicketWebService/reserveNewLotResponse" message="tns:reserveNewLotResponse"/>
+<operation name="hello">
+<input wsam:Action="http://services.ticket.com/TicketWebService/helloRequest" message="tns:hello"/>
+<output wsam:Action="http://services.ticket.com/TicketWebService/helloResponse" message="tns:helloResponse"/>
 </operation>
-<operation name="getIdParkingLots">
-<input wsam:Action="http://services.ticket.com/TicketWebService/getIdParkingLotsRequest" message="tns:getIdParkingLots"/>
-<output wsam:Action="http://services.ticket.com/TicketWebService/getIdParkingLotsResponse" message="tns:getIdParkingLotsResponse"/>
+<operation name="claimTicket">
+<input wsam:Action="http://services.ticket.com/TicketWebService/claimTicketRequest" message="tns:claimTicket"/>
+<output wsam:Action="http://services.ticket.com/TicketWebService/claimTicketResponse" message="tns:claimTicketResponse"/>
+</operation>
+<operation name="reserveNewTicket">
+<input wsam:Action="http://services.ticket.com/TicketWebService/reserveNewTicketRequest" message="tns:reserveNewTicket"/>
+<output wsam:Action="http://services.ticket.com/TicketWebService/reserveNewTicketResponse" message="tns:reserveNewTicketResponse"/>
 </operation>
 <operation name="isiComboVenue">
 <input wsam:Action="http://services.ticket.com/TicketWebService/isiComboVenueRequest" message="tns:isiComboVenue"/>
@@ -77,18 +93,22 @@
 <input wsam:Action="http://services.ticket.com/TicketWebService/isiDateCheckInRequest" message="tns:isiDateCheckIn"/>
 <output wsam:Action="http://services.ticket.com/TicketWebService/isiDateCheckInResponse" message="tns:isiDateCheckInResponse"/>
 </operation>
-<operation name="hello">
-<input wsam:Action="http://services.ticket.com/TicketWebService/helloRequest" message="tns:hello"/>
-<output wsam:Action="http://services.ticket.com/TicketWebService/helloResponse" message="tns:helloResponse"/>
+<operation name="getIdParkingLots">
+<input wsam:Action="http://services.ticket.com/TicketWebService/getIdParkingLotsRequest" message="tns:getIdParkingLots"/>
+<output wsam:Action="http://services.ticket.com/TicketWebService/getIdParkingLotsResponse" message="tns:getIdParkingLotsResponse"/>
 </operation>
 <operation name="getEventList">
 <input wsam:Action="http://services.ticket.com/TicketWebService/getEventListRequest" message="tns:getEventList"/>
 <output wsam:Action="http://services.ticket.com/TicketWebService/getEventListResponse" message="tns:getEventListResponse"/>
 </operation>
+<operation name="reserveNewLot">
+<input wsam:Action="http://services.ticket.com/TicketWebService/reserveNewLotRequest" message="tns:reserveNewLot"/>
+<output wsam:Action="http://services.ticket.com/TicketWebService/reserveNewLotResponse" message="tns:reserveNewLotResponse"/>
+</operation>
 </portType>
 <binding name="TicketWebServicePortBinding" type="tns:TicketWebService">
 <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
-<operation name="reserveNewLot">
+<operation name="hello">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>
@@ -97,7 +117,16 @@
 <soap:body use="literal"/>
 </output>
 </operation>
-<operation name="getIdParkingLots">
+<operation name="claimTicket">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="reserveNewTicket">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>
@@ -142,7 +171,7 @@
 <soap:body use="literal"/>
 </output>
 </operation>
-<operation name="hello">
+<operation name="getIdParkingLots">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>
@@ -152,6 +181,15 @@
 </output>
 </operation>
 <operation name="getEventList">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="reserveNewLot">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>

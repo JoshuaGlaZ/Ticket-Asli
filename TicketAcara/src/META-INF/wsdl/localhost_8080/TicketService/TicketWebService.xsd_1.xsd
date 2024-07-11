@@ -1,5 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?><!-- Published by JAX-WS RI (http://jax-ws.java.net). RI's version is Metro/2.4.3 (RELEASE-2.4.3-ad3323c; 2019-01-21T17:46:06+0000) JAXWS-RI/2.3.2 JAXWS-API/2.3.2 JAXB-RI/2.3.2 JAXB-API/2.3.2 git-revision#unknown. --><xs:schema xmlns:tns="http://services.ticket.com/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://services.ticket.com/">
 
+<xs:element name="claimTicket" type="tns:claimTicket"/>
+
+<xs:element name="claimTicketResponse" type="tns:claimTicketResponse"/>
+
 <xs:element name="getEventList" type="tns:getEventList"/>
 
 <xs:element name="getEventListResponse" type="tns:getEventListResponse"/>
@@ -31,6 +35,10 @@
 <xs:element name="reserveNewLot" type="tns:reserveNewLot"/>
 
 <xs:element name="reserveNewLotResponse" type="tns:reserveNewLotResponse"/>
+
+<xs:element name="reserveNewTicket" type="tns:reserveNewTicket"/>
+
+<xs:element name="reserveNewTicketResponse" type="tns:reserveNewTicketResponse"/>
 
 <xs:complexType name="parkingLots">
 <xs:complexContent>
@@ -109,6 +117,16 @@
 </xs:sequence>
 </xs:complexType>
 
+<xs:complexType name="claimTicket">
+<xs:sequence>
+<xs:element name="ticket_id" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="claimTicketResponse">
+<xs:sequence/>
+</xs:complexType>
+
 <xs:complexType name="reserveNewLot">
 <xs:sequence>
 <xs:element name="parking_lot_id" type="xs:int"/>
@@ -146,6 +164,22 @@
 <xs:complexType name="helloResponse">
 <xs:sequence>
 <xs:element name="return" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="reserveNewTicket">
+<xs:sequence>
+<xs:element name="parking_lot_id" type="xs:int"/>
+<xs:element name="user_id" type="xs:int"/>
+<xs:element name="reservation_date" type="xs:string" minOccurs="0"/>
+<xs:element name="harga" type="xs:int"/>
+<xs:element name="jenis_tiket" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="reserveNewTicketResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:int"/>
 </xs:sequence>
 </xs:complexType>
 

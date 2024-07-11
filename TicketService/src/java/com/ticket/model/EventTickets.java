@@ -5,7 +5,9 @@
 package com.ticket.model;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Locale;
@@ -32,8 +34,8 @@ public class EventTickets extends MyModel {
         this.jenis_ticket = null;
     }
 
-    public EventTickets(int id, int event_id, int user_id, String reservation_date, int harga, String jenis_ticket) {
-        this.id = id;
+    public EventTickets(int event_id, int user_id, String reservation_date, int harga, String jenis_ticket) {
+        this.id = 0;
         this.event_id = event_id;
         this.user_id = user_id;
         this.reservation_date = reservation_date;
@@ -95,23 +97,33 @@ public class EventTickets extends MyModel {
     @Override
     public String insertData() {
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
+        String generatedId = "-1";
         try {
             if (!MyModel.conn.isClosed()) {
                 PreparedStatement sql = MyModel.conn.prepareStatement(
-                        "INSERT INTO eventtickets(event_id, user_id, reservation_date, harga, jenis_tiket) VALUES (?, ?, ?, ?, ?)"
+                        "INSERT INTO eventtickets(event_id, user_id, reservation_date, harga, jenis_tiket) VALUES (?, ?, ?, ?, ?)",
+                         Statement.RETURN_GENERATED_KEYS
                 );
                 sql.setInt(1, this.event_id);
                 sql.setInt(2, this.user_id);
                 sql.setString(3, this.reservation_date);
                 sql.setInt(4, this.harga);
                 sql.setString(5, this.jenis_ticket);
-                sql.executeUpdate();
+                
+                int affectedRows = sql.executeUpdate();
+                if (affectedRows > 0) {
+                try (ResultSet rs = sql.getGeneratedKeys()) {
+                    if (rs.next()) {
+                        generatedId = rs.getString(1);
+                    }
+                }
+            } 
                 sql.close();
             }
         } catch (SQLException e) {
             System.out.println("Error in insertData: " + e);
         }
-        return null;
+        return generatedId;
     }
 
     @Override
@@ -119,7 +131,7 @@ public class EventTickets extends MyModel {
         try {
             if (!MyModel.conn.isClosed()) {
                 PreparedStatement sql = MyModel.conn.prepareStatement(
-                        "UPDATE eventtickets SET claimed = 1 WHERE id = ?;"
+                        "UPDATE eventtickets SET claimed = 1 WHERE id = ? AND claimed = 0;"
                 );
                 sql.setInt(1, this.id);
                 sql.executeUpdate();
