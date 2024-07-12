@@ -187,7 +187,7 @@ public class FormLogin extends javax.swing.JFrame implements Runnable {
 
     private void linkRegisterMouseClicked(java.awt.event.MouseEvent evt) {
         this.setVisible(false);
-        new FormRegister().setVisible(true);
+        new FormRegister(this).setVisible(true);
     }
 
     private void linkRegisterMouseEntered(java.awt.event.MouseEvent evt) {
